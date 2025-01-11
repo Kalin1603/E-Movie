@@ -36,5 +36,7 @@ namespace eMovies.Models
 
         [Url(ErrorMessage = "Invalid URL format.")]
         public string Website { get; set; }
+
+        public ICollection<Movie> Movies { get; set; }
     }
 }

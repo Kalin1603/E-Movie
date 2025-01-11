@@ -21,5 +21,7 @@ namespace eMovies.Models
         [Required(ErrorMessage = "Profile picture URL is required.")]
         [Url(ErrorMessage = "Invalid URL format.")]
         public string ProfilePictureURL { get; set; }
+
+        public ICollection<ActorMovie> Movies { get; set; }
     }
 }

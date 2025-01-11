@@ -1,5 +1,6 @@
 ﻿using eMovies.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eMovies.Models
 {
@@ -32,5 +33,17 @@ namespace eMovies.Models
 
         [Required(ErrorMessage = "Category is required.")]
         public MovieCategory Category { get; set; }
+
+        public ICollection<ActorMovie> Actors { get; set; }
+
+        [ForeignKey(nameof(Cinema))]
+        public int CinemaId { get; set; }
+
+        public Cinema Cinema { get; set; }
+
+        [ForeignKey(nameof(Producer))]
+        public int ProducerId { get; set; }
+
+        public Producer Producer { get; set; }
     }
 }
