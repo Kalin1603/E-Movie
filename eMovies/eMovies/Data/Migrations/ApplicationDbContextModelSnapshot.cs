@@ -8,7 +8,7 @@ using eMovies.Data;
 
 #nullable disable
 
-namespace eMovies.Data.Migrations
+namespace eMovies.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -234,8 +234,8 @@ namespace eMovies.Data.Migrations
 
                     b.Property<string>("Bio")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -389,8 +389,8 @@ namespace eMovies.Data.Migrations
 
                     b.Property<string>("Bio")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()

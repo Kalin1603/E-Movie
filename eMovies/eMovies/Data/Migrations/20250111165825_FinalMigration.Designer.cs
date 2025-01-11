@@ -9,11 +9,11 @@ using eMovies.Data;
 
 #nullable disable
 
-namespace eMovies.Data.Migrations
+namespace eMovies.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250111151611_SecondInitial")]
-    partial class SecondInitial
+    [Migration("20250111165825_FinalMigration")]
+    partial class FinalMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -237,8 +237,8 @@ namespace eMovies.Data.Migrations
 
                     b.Property<string>("Bio")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -392,8 +392,8 @@ namespace eMovies.Data.Migrations
 
                     b.Property<string>("Bio")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()

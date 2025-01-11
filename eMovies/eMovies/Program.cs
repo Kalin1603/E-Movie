@@ -43,4 +43,7 @@ app.MapControllerRoute(
 app.MapRazorPages()
    .WithStaticAssets();
 
+//Seed database
+ApplicationDbInitializer.Seed(app);
+
 app.Run();
