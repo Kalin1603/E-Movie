@@ -1,0 +1,144 @@
+﻿/* Основен стил за тялото на страницата */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: url('https://example.com/your-background-image.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #f4f4f4;
+    padding: 20px;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+/* Заглавие на страницата */
+h1.display-4 {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 700;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Контейнер за таблицата */
+.table-container {
+    width: 100%;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.6); /* Прозрачен черен фон за контекста */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    overflow-x: auto; /* Позволява хоризонтално скролиране */
+}
+
+/* Стилове за таблицата */
+.table {
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background-color: transparent;
+    color: #fff;
+    font-size: 1rem;
+}
+
+    /* Подредба на колоните */
+    .table th, .table td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .table th {
+        background-color: #333;
+        color: #fff;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .table td {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Изображения в таблицата */
+    .table img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        transition: transform 0.3s ease-in-out;
+    }
+
+        .table img:hover {
+            transform: scale(1.1);
+        }
+
+/* Стилове за бутоните */
+.btn {
+    font-size: 0.9rem;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease-in-out;
+}
+
+    .btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+/* Стилове за бутоните с различен цвят */
+.btn-outline-primary {
+    border: 2px solid #FF5722;
+    color: #FF5722;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #FF5722;
+        color: #fff;
+    }
+
+.btn-outline-info {
+    border: 2px solid #03A9F4;
+    color: #03A9F4;
+}
+
+    .btn-outline-info:hover {
+        background-color: #03A9F4;
+        color: #fff;
+    }
+
+.btn-outline-danger {
+    border: 2px solid #F44336;
+    color: #F44336;
+}
+
+    .btn-outline-danger:hover {
+        background-color: #F44336;
+        color: #fff;
+    }
+
+/* Респонсив дизайн за мобилни устройства */
+@media (max-width: 768px) {
+    .table th, .table td {
+        padding: 10px;
+    }
+
+    .table img {
+        width: 50px;
+        height: 50px;
+    }
+
+    h1.display-4 {
+        font-size: 2rem;
+    }
+
+    .btn {
+        font-size: 0.8rem;
+        padding: 8px 15px;
+    }
+}
