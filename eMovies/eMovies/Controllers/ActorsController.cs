@@ -7,22 +7,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using eMovies.Data;
 using eMovies.Models;
+using eMovies.Services;
 
 namespace eMovies.Controllers
 {
     public class ActorsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IActorsService _service;
 
-        public ActorsController(ApplicationDbContext context)
+        public ActorsController(IActorsService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: Actors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Actors.ToListAsync());
+            return View(await _service.GetAllActorsAsync());
         }
 
         // GET: Actors/Details/5
@@ -33,8 +34,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var actor = await _context.Actors
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var actor = await _service.GetActorByIdAsync(id);
             if (actor == null)
             {
                 return NotFound();
@@ -58,8 +58,7 @@ namespace eMovies.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(actor);
-                await _context.SaveChangesAsync();
+                await _service.CreateActorAsync(actor);
                 return RedirectToAction(nameof(Index));
             }
             return View(actor);
@@ -73,7 +72,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var actor = await _context.Actors.FindAsync(id);
+            var actor = await _service.FindActorAsync(id);
             if (actor == null)
             {
                 return NotFound();
@@ -97,8 +96,7 @@ namespace eMovies.Controllers
             {
                 try
                 {
-                    _context.Update(actor);
-                    await _context.SaveChangesAsync();
+                    await _service.UpdateActorAsync(actor);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,8 +122,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var actor = await _context.Actors
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var actor = await _service.GetActorByIdAsync(id);
             if (actor == null)
             {
                 return NotFound();
@@ -139,19 +136,18 @@ namespace eMovies.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var actor = await _context.Actors.FindAsync(id);
+            var actor = await _service.FindActorAsync(id);
             if (actor != null)
             {
-                _context.Actors.Remove(actor);
+                await _service.DeleteActorAsync(actor);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ActorExists(int id)
         {
-            return _context.Actors.Any(e => e.Id == id);
+            return _service.CheckActorExists(id);
         }
     }
 }
