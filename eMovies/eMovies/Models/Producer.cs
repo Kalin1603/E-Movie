@@ -4,6 +4,11 @@ namespace eMovies.Models
 {
     public class Producer
     {
+        public Producer()
+        {
+            this.Movies = new List<Movie>();
+        }
+
         [Key]
         public int Id { get; set; }
 
