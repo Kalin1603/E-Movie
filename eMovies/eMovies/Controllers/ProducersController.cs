@@ -7,22 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using eMovies.Data;
 using eMovies.Models;
+using eMovies.Services;
 
 namespace eMovies.Controllers
 {
     public class ProducersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IProducersService _service;
 
-        public ProducersController(ApplicationDbContext context)
+        public ProducersController(IProducersService service)
         {
-            _context = context;
+            _service = service;
         }
+
+
 
         // GET: Producers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Producers.ToListAsync());
+            return View(await _service.GetAllProducersAsync());
         }
 
         // GET: Producers/Details/5
@@ -33,8 +36,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var producer = await _context.Producers
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var producer = await _service.GetProducerByIdAsync(id);
             if (producer == null)
             {
                 return NotFound();
@@ -58,8 +60,7 @@ namespace eMovies.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(producer);
-                await _context.SaveChangesAsync();
+                await _service.CreateProducerAsync(producer);
                 return RedirectToAction(nameof(Index));
             }
             return View(producer);
@@ -73,7 +74,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var producer = await _context.Producers.FindAsync(id);
+            var producer = await _service.FindProducerAsync(id);
             if (producer == null)
             {
                 return NotFound();
@@ -97,8 +98,7 @@ namespace eMovies.Controllers
             {
                 try
                 {
-                    _context.Update(producer);
-                    await _context.SaveChangesAsync();
+                    await _service.UpdateProducerAsync(producer);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,8 +124,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var producer = await _context.Producers
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var producer = await _service.GetProducerByIdAsync(id);
             if (producer == null)
             {
                 return NotFound();
@@ -139,19 +138,18 @@ namespace eMovies.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var producer = await _context.Producers.FindAsync(id);
+            var producer = await _service.FindProducerAsync(id);
             if (producer != null)
             {
-                _context.Producers.Remove(producer);
+                await _service.DeleteProducerAsync(producer);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProducerExists(int id)
         {
-            return _context.Producers.Any(e => e.Id == id);
+            return _service.CheckProducerExists(id);
         }
     }
 }

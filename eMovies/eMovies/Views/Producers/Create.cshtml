@@ -1,48 +1,70 @@
 ﻿@model eMovies.Models.Producer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add a new Producer";
 }
 
-<h1>Create</h1>
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <h1 class="display-4 text-center" style="color: #343a40; font-weight: bold;">Add a new Producer</h1>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<h4>Producer</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                    <div class="form-group text-center d-flex justify-content-center">
+                        <img id="ProfilePicturePreview" src="#" alt="Preview"
+                             style="max-width: 250px; max-height: 350px; object-fit: cover; display: none; border-radius: 10px;" />
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ProfilePictureURL" class="control-label"></label>
+                        <input asp-for="ProfilePictureURL" class="form-control" />
+                        <span asp-validation-for="ProfilePictureURL" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Bio" class="control-label"></label>
+                        <input asp-for="Bio" class="form-control" />
+                        <span asp-validation-for="Bio" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" style="padding-top: 20px">
+                        <input type="submit" value="Create" class="btn btn-outline-success float-end" />
+                        <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Bio" class="control-label"></label>
-                <input asp-for="Bio" class="form-control" />
-                <span asp-validation-for="Bio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ProfilePictureURL" class="control-label"></label>
-                <input asp-for="ProfilePictureURL" class="form-control" />
-                <span asp-validation-for="ProfilePictureURL" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $("#ProfilePictureURL").on("input", function () {
+                var output = document.getElementById("ProfilePicturePreview");
+                var url = $(this).val();
+
+                if (url) {
+                    output.src = url;
+                    output.style.display = "block";
+                } else {
+                    output.style.display = "none";
+                }
+            });
+        });
+    </script>
 }
