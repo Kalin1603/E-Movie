@@ -11,5 +11,10 @@ namespace eMovies.Services
             : base(context)
         {
         }
+
+        public async Task<ICollection<Producer>> GetAllProducersAsync()
+        {
+            return await _context.Set<Producer>().ToListAsync();
+        }
     }
 }

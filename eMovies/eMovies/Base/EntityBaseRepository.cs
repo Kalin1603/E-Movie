@@ -2,12 +2,13 @@
 using eMovies.Data;
 using eMovies.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace eMovies.Base
 {
     public class EntityBaseRepositoryL<T> : IEntityBaseRepository<T> where T : class, IEntityBase, new()
     {
-        private readonly ApplicationDbContext _context;
+        protected readonly ApplicationDbContext _context;
 
         public EntityBaseRepositoryL(ApplicationDbContext context)
         {
@@ -51,6 +52,17 @@ namespace eMovies.Base
         {
             _context.Update(newEntity);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<Movie>> GetAllMoviesAsync()
+        {
+            var movies = await _context.Movies.Include(m => m.Cinema).Include(m => m.Producer).OrderBy(m => m.Title).ToListAsync();
+            return movies;
+        }
+
+        public async Task<Movie> GetMovieByIdAsync(int? id)
+        {
+            return await _context.Movies.Include(m => m.Cinema).Include(m => m.Producer).FirstOrDefaultAsync(m => m.Id == id);
         }
     }
 }

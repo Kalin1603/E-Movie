@@ -7,23 +7,31 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using eMovies.Data;
 using eMovies.Models;
+using eMovies.Services;
 
 namespace eMovies.Controllers
 {
     public class MoviesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMoviesService _moviesService;
+        private readonly ICinemasService _cinemasService;
+        private readonly IProducersService _producersService;
 
-        public MoviesController(ApplicationDbContext context)
+        public MoviesController(IMoviesService moviesService, ICinemasService cinemasService, IProducersService producersService)
         {
-            _context = context;
+            _moviesService = moviesService;
+            _cinemasService = cinemasService;
+            _producersService = producersService;
         }
+
+
+
 
         // GET: Movies
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Movies.Include(m => m.Cinema).Include(m => m.Producer).OrderBy(m => m.Title);
-            return View(await applicationDbContext.ToListAsync());
+            var allMovies = _moviesService.GetAllMoviesAsync();
+            return View(await allMovies);
         }
 
         // GET: Movies/Details/5
@@ -34,10 +42,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies
-                .Include(m => m.Cinema)
-                .Include(m => m.Producer)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var movie = await _moviesService.GetMovieByIdAsync(id);
             if (movie == null)
             {
                 return NotFound();
@@ -47,10 +52,13 @@ namespace eMovies.Controllers
         }
 
         // GET: Movies/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["CinemaId"] = new SelectList(_context.Cinemas, "Id", "Description");
-            ViewData["ProducerId"] = new SelectList(_context.Producers, "Id", "FirstName");
+            var cinemas = await _cinemasService.GetAllCinemasAsync();
+            var producers = await _producersService.GetAllProducersAsync();
+
+            ViewData["CinemaId"] = new SelectList(cinemas, "Id", "Description");
+            ViewData["ProducerId"] = new SelectList(producers, "Id", "FirstName");
             return View();
         }
 
@@ -63,12 +71,14 @@ namespace eMovies.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(movie);
-                await _context.SaveChangesAsync();
+                await _moviesService.AddAsync(movie);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CinemaId"] = new SelectList(_context.Cinemas, "Id", "Description", movie.CinemaId);
-            ViewData["ProducerId"] = new SelectList(_context.Producers, "Id", "FirstName", movie.ProducerId);
+            var cinemas = await _cinemasService.GetAllCinemasAsync();
+            var producers = await _producersService.GetAllProducersAsync();
+
+            ViewData["CinemaId"] = new SelectList(cinemas, "Id", "Description", movie.CinemaId);
+            ViewData["ProducerId"] = new SelectList(producers, "Id", "FirstName", movie.ProducerId);
             return View(movie);
         }
 
@@ -80,13 +90,16 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies.FindAsync(id);
+            var movie = await _moviesService.FindAsync(id);
             if (movie == null)
             {
                 return NotFound();
             }
-            ViewData["CinemaId"] = new SelectList(_context.Cinemas, "Id", "Description", movie.CinemaId);
-            ViewData["ProducerId"] = new SelectList(_context.Producers, "Id", "FirstName", movie.ProducerId);
+            var cinemas = await _cinemasService.GetAllCinemasAsync();
+            var producers = await _producersService.GetAllProducersAsync();
+
+            ViewData["CinemaId"] = new SelectList(cinemas, "Id", "Description", movie.CinemaId);
+            ViewData["ProducerId"] = new SelectList(producers, "Id", "FirstName", movie.ProducerId);
             return View(movie);
         }
 
@@ -106,8 +119,7 @@ namespace eMovies.Controllers
             {
                 try
                 {
-                    _context.Update(movie);
-                    await _context.SaveChangesAsync();
+                    await _moviesService.UpdateAsync(movie);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -122,8 +134,11 @@ namespace eMovies.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CinemaId"] = new SelectList(_context.Cinemas, "Id", "Description", movie.CinemaId);
-            ViewData["ProducerId"] = new SelectList(_context.Producers, "Id", "FirstName", movie.ProducerId);
+            var cinemas = await _cinemasService.GetAllCinemasAsync();
+            var producers = await _producersService.GetAllProducersAsync();
+
+            ViewData["CinemaId"] = new SelectList(cinemas, "Id", "Description", movie.CinemaId);
+            ViewData["ProducerId"] = new SelectList(producers, "Id", "FirstName", movie.ProducerId);
             return View(movie);
         }
 
@@ -135,10 +150,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var movie = await _context.Movies
-                .Include(m => m.Cinema)
-                .Include(m => m.Producer)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var movie = await _moviesService.GetMovieByIdAsync(id);
             if (movie == null)
             {
                 return NotFound();
@@ -152,19 +164,18 @@ namespace eMovies.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var movie = await _context.Movies.FindAsync(id);
+            var movie = await _moviesService.FindAsync(id);
             if (movie != null)
             {
-                _context.Movies.Remove(movie);
+                await _moviesService.DeleteAsync(movie);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool MovieExists(int id)
         {
-            return _context.Movies.Any(e => e.Id == id);
+            return _moviesService.CheckExists(id);
         }
     }
 }

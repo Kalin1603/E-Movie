@@ -1,6 +1,7 @@
 ﻿using eMovies.Base;
 using eMovies.Data;
 using eMovies.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace eMovies.Services
 {
@@ -9,6 +10,11 @@ namespace eMovies.Services
         public CinemasService(ApplicationDbContext context) 
             : base(context)
         {
+        }
+
+        public async Task<ICollection<Cinema>> GetAllCinemasAsync()
+        {
+            return await _context.Set<Cinema>().ToListAsync();
         }
     }
 }

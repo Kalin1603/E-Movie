@@ -5,5 +5,6 @@ namespace eMovies.Services
 {
     public interface ICinemasService : IEntityBaseRepository<Cinema>
     {
+        Task<ICollection<Cinema>> GetAllCinemasAsync();
     }
 }

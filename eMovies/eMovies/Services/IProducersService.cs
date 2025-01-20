@@ -5,5 +5,6 @@ namespace eMovies.Services
 {
     public interface IProducersService : IEntityBaseRepository<Producer>
     {
+        Task<ICollection<Producer>> GetAllProducersAsync();
     }
 }
