@@ -7,22 +7,24 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using eMovies.Data;
 using eMovies.Models;
+using eMovies.Services;
 
 namespace eMovies.Controllers
 {
     public class CinemasController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ICinemasService _service;
 
-        public CinemasController(ApplicationDbContext context)
+        public CinemasController(ICinemasService service)
         {
-            _context = context;
+            _service = service;
         }
+
 
         // GET: Cinemas
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cinemas.ToListAsync());
+            return View(await _service.GetAllAsync());
         }
 
         // GET: Cinemas/Details/5
@@ -33,8 +35,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var cinema = await _context.Cinemas
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cinema = await _service.GetByIdAsync(id);
             if (cinema == null)
             {
                 return NotFound();
@@ -58,8 +59,7 @@ namespace eMovies.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cinema);
-                await _context.SaveChangesAsync();
+                await _service.AddAsync(cinema);
                 return RedirectToAction(nameof(Index));
             }
             return View(cinema);
@@ -73,7 +73,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var cinema = await _context.Cinemas.FindAsync(id);
+            var cinema = await _service.FindAsync(id);
             if (cinema == null)
             {
                 return NotFound();
@@ -97,8 +97,7 @@ namespace eMovies.Controllers
             {
                 try
                 {
-                    _context.Update(cinema);
-                    await _context.SaveChangesAsync();
+                    await _service.UpdateAsync(cinema);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,8 +123,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var cinema = await _context.Cinemas
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cinema = await _service.GetByIdAsync(id);
             if (cinema == null)
             {
                 return NotFound();
@@ -139,19 +137,18 @@ namespace eMovies.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cinema = await _context.Cinemas.FindAsync(id);
+            var cinema = await _service.FindAsync(id);
             if (cinema != null)
             {
-                _context.Cinemas.Remove(cinema);
+                await _service.DeleteAsync(cinema);
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CinemaExists(int id)
         {
-            return _context.Cinemas.Any(e => e.Id == id);
+            return _service.CheckExists(id);
         }
     }
 }

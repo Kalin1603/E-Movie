@@ -54,8 +54,17 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
+            var output = document.getElementById('ProfilePicturePreview');
+            var profileInput = document.getElementById('ProfilePictureURL').value;
+
+            if (profileInput) {
+                output.src = profileInput;
+                output.style.display = 'block';
+            } else {
+                output.style.display = 'none';
+            }
+
             $("#ProfilePictureURL").on("input", function () {
-                var output = document.getElementById("ProfilePicturePreview");
                 var url = $(this).val();
 
                 if (url) {

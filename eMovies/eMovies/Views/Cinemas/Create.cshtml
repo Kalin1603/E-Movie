@@ -1,73 +1,110 @@
 ﻿@model eMovies.Models.Cinema
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add a new Cinema";
 }
 
-<h1>Create</h1>
+<div class="row text">
+    <div class="col-md-8 offset-2">
+        <h1 class="display-4 text-center" style="color: #343a40; font-weight: bold;">Add a new Cinema</h1>
+        <div class="row">
+            <div class="col-md-8 offset-2">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-<h4>Cinema</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Logo" class="control-label"></label>
-                <input asp-for="Logo" class="form-control" />
-                <span asp-validation-for="Logo" class="text-danger"></span>
+                    <div class="form-group text-center d-flex justify-content-center">
+                        <img id="LogoPreview" src="#" alt="Preview"
+                             style="max-width: 250px; max-height: 350px; object-fit: cover; border-radius: 10px;" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="Logo" class="control-label"></label>
+                        <input asp-for="Logo" class="form-control"/>
+                        <span asp-validation-for="Logo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control"/>
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control"/>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Location" class="control-label"></label>
+                        <input asp-for="Location" class="form-control"/>
+                        <span asp-validation-for="Location" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ContactEmail" class="control-label"></label>
+                        <input asp-for="ContactEmail" class="form-control"/>
+                        <span asp-validation-for="ContactEmail" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control"/>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="OpeningHours" class="control-label"></label>
+                        <input asp-for="OpeningHours" class="form-control"/>
+                        <span asp-validation-for="OpeningHours" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Capacity" class="control-label"></label>
+                        <input asp-for="Capacity" class="form-control"/>
+                        <span asp-validation-for="Capacity" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Website" class="control-label"></label>
+                        <input asp-for="Website" class="form-control"/>
+                        <span asp-validation-for="Website" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" style="padding-top: 20px">
+                        <input type="submit" value="Create" class="btn btn-outline-success float-end" />
+                        <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Location" class="control-label"></label>
-                <input asp-for="Location" class="form-control" />
-                <span asp-validation-for="Location" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContactEmail" class="control-label"></label>
-                <input asp-for="ContactEmail" class="form-control" />
-                <span asp-validation-for="ContactEmail" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OpeningHours" class="control-label"></label>
-                <input asp-for="OpeningHours" class="form-control" />
-                <span asp-validation-for="OpeningHours" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Capacity" class="control-label"></label>
-                <input asp-for="Capacity" class="form-control" />
-                <span asp-validation-for="Capacity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Website" class="control-label"></label>
-                <input asp-for="Website" class="form-control" />
-                <span asp-validation-for="Website" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            var output = document.getElementById('LogoPreview');
+            var logoInput = document.getElementById('Logo').value;
+
+            if (logoInput) {
+                output.src = logoInput;
+                output.style.display = 'block';
+            } else {
+                output.style.display = 'none';
+            }
+
+            $("#Logo").on("input", function () {
+                var url = $(this).val();
+
+                if (url) {
+                    output.src = url;
+                    output.style.display = "block";
+                } else {
+                    output.style.display = "none";
+                }
+            });
+        });
+    </script>
 }

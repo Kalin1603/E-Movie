@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using eMovies.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace eMovies.Models
 {
-    public class Cinema
+    public class Cinema : IEntityBase
     {
         public Cinema()
         {
