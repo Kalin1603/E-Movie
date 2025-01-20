@@ -25,7 +25,7 @@ namespace eMovies.Controllers
         // GET: Producers
         public async Task<IActionResult> Index()
         {
-            return View(await _service.GetAllProducersAsync());
+            return View(await _service.GetAllAsync());
         }
 
         // GET: Producers/Details/5
@@ -36,7 +36,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var producer = await _service.GetProducerByIdAsync(id);
+            var producer = await _service.GetByIdAsync(id);
             if (producer == null)
             {
                 return NotFound();
@@ -60,7 +60,7 @@ namespace eMovies.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.CreateProducerAsync(producer);
+                await _service.AddAsync(producer);
                 return RedirectToAction(nameof(Index));
             }
             return View(producer);
@@ -74,7 +74,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var producer = await _service.FindProducerAsync(id);
+            var producer = await _service.FindAsync(id);
             if (producer == null)
             {
                 return NotFound();
@@ -98,7 +98,7 @@ namespace eMovies.Controllers
             {
                 try
                 {
-                    await _service.UpdateProducerAsync(producer);
+                    await _service.UpdateAsync(producer);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,7 +124,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var producer = await _service.GetProducerByIdAsync(id);
+            var producer = await _service.GetByIdAsync(id);
             if (producer == null)
             {
                 return NotFound();
@@ -138,10 +138,10 @@ namespace eMovies.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var producer = await _service.FindProducerAsync(id);
+            var producer = await _service.FindAsync(id);
             if (producer != null)
             {
-                await _service.DeleteProducerAsync(producer);
+                await _service.DeleteAsync(producer);
             }
 
             return RedirectToAction(nameof(Index));
@@ -149,7 +149,7 @@ namespace eMovies.Controllers
 
         private bool ProducerExists(int id)
         {
-            return _service.CheckProducerExists(id);
+            return _service.CheckExists(id);
         }
     }
 }

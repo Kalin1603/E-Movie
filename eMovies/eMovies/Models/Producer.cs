@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using eMovies.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace eMovies.Models
 {
-    public class Producer
+    public class Producer : IEntityBase
     {
         public Producer()
         {

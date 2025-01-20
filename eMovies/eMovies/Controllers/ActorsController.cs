@@ -23,7 +23,7 @@ namespace eMovies.Controllers
         // GET: Actors
         public async Task<IActionResult> Index()
         {
-            return View(await _service.GetAllActorsAsync());
+            return View(await _service.GetAllAsync());
         }
 
         // GET: Actors/Details/5
@@ -34,7 +34,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var actor = await _service.GetActorByIdAsync(id);
+            var actor = await _service.GetByIdAsync(id);
             if (actor == null)
             {
                 return NotFound();
@@ -58,7 +58,7 @@ namespace eMovies.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.CreateActorAsync(actor);
+                await _service.AddAsync(actor);
                 return RedirectToAction(nameof(Index));
             }
             return View(actor);
@@ -72,7 +72,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var actor = await _service.FindActorAsync(id);
+            var actor = await _service.FindAsync(id);
             if (actor == null)
             {
                 return NotFound();
@@ -96,7 +96,7 @@ namespace eMovies.Controllers
             {
                 try
                 {
-                    await _service.UpdateActorAsync(actor);
+                    await _service.UpdateAsync(actor);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -122,7 +122,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var actor = await _service.GetActorByIdAsync(id);
+            var actor = await _service.GetByIdAsync(id);
             if (actor == null)
             {
                 return NotFound();
@@ -136,10 +136,10 @@ namespace eMovies.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var actor = await _service.FindActorAsync(id);
+            var actor = await _service.FindAsync(id);
             if (actor != null)
             {
-                await _service.DeleteActorAsync(actor);
+                await _service.DeleteAsync(actor);
             }
 
             return RedirectToAction(nameof(Index));
@@ -147,7 +147,7 @@ namespace eMovies.Controllers
 
         private bool ActorExists(int id)
         {
-            return _service.CheckActorExists(id);
+            return _service.CheckExists(id);
         }
     }
 }
