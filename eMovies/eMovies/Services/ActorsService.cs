@@ -10,6 +10,11 @@ namespace eMovies.Services
         public ActorsService(ApplicationDbContext context)
             : base(context)
         {
+
+        }
+        public async Task<ICollection<Actor>> GetAllActorsAsync()
+        {
+            return await _context.Set<Actor>().ToListAsync();
         }
     }
 }

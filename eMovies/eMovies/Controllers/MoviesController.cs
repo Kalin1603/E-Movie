@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using eMovies.Data;
 using eMovies.Models;
 using eMovies.Services;
+using eMovies.ViewModels;
 
 namespace eMovies.Controllers
 {
@@ -16,16 +17,15 @@ namespace eMovies.Controllers
         private readonly IMoviesService _moviesService;
         private readonly ICinemasService _cinemasService;
         private readonly IProducersService _producersService;
+        private readonly IActorsService _actorsService;
 
-        public MoviesController(IMoviesService moviesService, ICinemasService cinemasService, IProducersService producersService)
+        public MoviesController(IMoviesService moviesService, ICinemasService cinemasService, IProducersService producersService, IActorsService actorsService)
         {
             _moviesService = moviesService;
             _cinemasService = cinemasService;
             _producersService = producersService;
+            _actorsService = actorsService;
         }
-
-
-
 
         // GET: Movies
         public async Task<IActionResult> Index()
@@ -95,12 +95,48 @@ namespace eMovies.Controllers
             {
                 return NotFound();
             }
+
+            var response = new EditMovieViewModel()
+            {
+                MovieImageURL = movie.MovieImageURL,
+                Title = movie.Title,
+                StartDate = movie.StartDate,
+                EndDate = movie.EndDate,
+                Price = movie.Price,
+                CinemaId = movie.CinemaId,
+                Category = movie.Category,
+                ProducerId = movie.ProducerId,
+                Description = movie.Description,
+                ActorIds = movie.Actors.Select(am => am.ActorId).ToList()
+            };
+
             var cinemas = await _cinemasService.GetAllCinemasAsync();
             var producers = await _producersService.GetAllProducersAsync();
+            var actors = await _actorsService.GetAllActorsAsync();
 
-            ViewData["CinemaId"] = new SelectList(cinemas, "Id", "Description", movie.CinemaId);
-            ViewData["ProducerId"] = new SelectList(producers, "Id", "FirstName", movie.ProducerId);
-            return View(movie);
+            ViewData["CinemaId"] = new SelectList(cinemas, "Id", "Name", movie.CinemaId);
+
+            ViewData["ProducerId"] = new SelectList(
+            producers.Select(p => new
+            {
+                p.Id,
+                FullName = p.FirstName + " " + p.LastName
+            }),
+            "Id",
+            "FullName",
+             movie.ProducerId);
+
+            ViewData["Actors"] = new SelectList(
+            actors.Select(a => new
+            {
+                a.Id,
+                FullName = a.FirstName + " " + a.LastName
+            }),
+            "Id",
+            "FullName",
+             movie.Actors);
+
+            return View(response);
         }
 
         // POST: Movies/Edit/5
@@ -108,7 +144,7 @@ namespace eMovies.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Price,MovieImageURL,StartDate,EndDate,Category,CinemaId,ProducerId")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Price,MovieImageURL,StartDate,EndDate,Category,CinemaId,ProducerId,ActorIds")] EditMovieViewModel movie)
         {
             if (id != movie.Id)
             {
@@ -119,7 +155,7 @@ namespace eMovies.Controllers
             {
                 try
                 {
-                    await _moviesService.UpdateAsync(movie);
+                    await _moviesService.UpdateMovieAsync(movie);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -136,9 +172,29 @@ namespace eMovies.Controllers
             }
             var cinemas = await _cinemasService.GetAllCinemasAsync();
             var producers = await _producersService.GetAllProducersAsync();
+            var actors = await _actorsService.GetAllActorsAsync();
 
-            ViewData["CinemaId"] = new SelectList(cinemas, "Id", "Description", movie.CinemaId);
-            ViewData["ProducerId"] = new SelectList(producers, "Id", "FirstName", movie.ProducerId);
+            ViewData["CinemaId"] = new SelectList(cinemas, "Id", "Name", movie.CinemaId);
+
+            ViewData["ProducerId"] = new SelectList(
+            producers.Select(p => new
+            {
+                p.Id,
+                FullName = p.FirstName + " " + p.LastName
+            }),
+            "Id",
+            "FullName",
+             movie.ProducerId);
+
+            ViewData["Actors"] = new SelectList(
+            actors.Select(a => new
+            {
+                a.Id,
+                FullName = a.FirstName + " " + a.LastName
+            }),
+            "Id",
+            "FullName",
+             movie.ActorIds);
             return View(movie);
         }
 

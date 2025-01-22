@@ -53,16 +53,5 @@ namespace eMovies.Base
             _context.Update(newEntity);
             await _context.SaveChangesAsync();
         }
-
-        public async Task<ICollection<Movie>> GetAllMoviesAsync()
-        {
-            var movies = await _context.Movies.Include(m => m.Cinema).Include(m => m.Producer).OrderBy(m => m.Title).ToListAsync();
-            return movies;
-        }
-
-        public async Task<Movie> GetMovieByIdAsync(int? id)
-        {
-            return await _context.Movies.Include(m => m.Cinema).Include(m => m.Producer).Include(m => m.Actors).ThenInclude(ma => ma.Actor).FirstOrDefaultAsync(m => m.Id == id);
-        }
     }
 }

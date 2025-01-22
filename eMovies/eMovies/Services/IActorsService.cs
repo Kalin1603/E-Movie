@@ -5,5 +5,6 @@ namespace eMovies.Services
 {
     public interface IActorsService : IEntityBaseRepository<Actor>
     {
+        Task<ICollection<Actor>> GetAllActorsAsync();
     }
 }

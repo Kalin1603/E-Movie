@@ -7,10 +7,7 @@ namespace eMovies.Base
     {
         Task<ICollection<T>> GetAllAsync();
 
-        Task<ICollection<Movie>> GetAllMoviesAsync();
-
         Task<T> GetByIdAsync(int? id);
-        Task<Movie> GetMovieByIdAsync(int? id);
 
         Task AddAsync(T entity);
 
