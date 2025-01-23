@@ -34,6 +34,18 @@ namespace eMovies.Controllers
             return View(await allMovies);
         }
 
+        //Search Movies
+        public async Task<IActionResult> Search(string searchString)
+        {
+            var movies = await _moviesService.GetAllMoviesAsync();
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                var filteredMovie = movies.Where(s => s.Title.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+                return View("Index", filteredMovie);
+            }
+            return View("Index", movies);
+        }
+
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
