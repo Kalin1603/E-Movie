@@ -56,9 +56,27 @@ namespace eMovies.Controllers
         {
             var cinemas = await _cinemasService.GetAllCinemasAsync();
             var producers = await _producersService.GetAllProducersAsync();
+            var actors = await _actorsService.GetAllActorsAsync();
 
-            ViewData["CinemaId"] = new SelectList(cinemas, "Id", "Description");
-            ViewData["ProducerId"] = new SelectList(producers, "Id", "FirstName");
+            ViewData["CinemaId"] = new SelectList(cinemas, "Id", "Name");
+
+            ViewData["ProducerId"] = new SelectList(
+            producers.Select(p => new
+            {
+                p.Id,
+                FullName = p.FirstName + " " + p.LastName
+            }),
+            "Id",
+            "FullName");
+
+            ViewData["Actors"] = new SelectList(
+            actors.Select(a => new
+            {
+                a.Id,
+                FullName = a.FirstName + " " + a.LastName
+            }),
+            "Id",
+            "FullName");
             return View();
         }
 
@@ -67,18 +85,36 @@ namespace eMovies.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Price,MovieImageURL,StartDate,EndDate,Category,CinemaId,ProducerId")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Price,MovieImageURL,StartDate,EndDate,Category,CinemaId,ProducerId,ActorIds")] MovieViewModel movie)
         {
             if (ModelState.IsValid)
             {
-                await _moviesService.AddAsync(movie);
+                await _moviesService.AddNewMovieAsync(movie);
                 return RedirectToAction(nameof(Index));
             }
             var cinemas = await _cinemasService.GetAllCinemasAsync();
             var producers = await _producersService.GetAllProducersAsync();
+            var actors = await _actorsService.GetAllActorsAsync();
 
-            ViewData["CinemaId"] = new SelectList(cinemas, "Id", "Description", movie.CinemaId);
-            ViewData["ProducerId"] = new SelectList(producers, "Id", "FirstName", movie.ProducerId);
+            ViewData["CinemaId"] = new SelectList(cinemas, "Id", "Name");
+
+            ViewData["ProducerId"] = new SelectList(
+            producers.Select(p => new
+            {
+                p.Id,
+                FullName = p.FirstName + " " + p.LastName
+            }),
+            "Id",
+            "FullName");
+
+            ViewData["Actors"] = new SelectList(
+            actors.Select(a => new
+            {
+                a.Id,
+                FullName = a.FirstName + " " + a.LastName
+            }),
+            "Id",
+            "FullName");
             return View(movie);
         }
 
@@ -96,7 +132,7 @@ namespace eMovies.Controllers
                 return NotFound();
             }
 
-            var response = new EditMovieViewModel()
+            var response = new MovieViewModel()
             {
                 MovieImageURL = movie.MovieImageURL,
                 Title = movie.Title,
@@ -144,7 +180,7 @@ namespace eMovies.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Price,MovieImageURL,StartDate,EndDate,Category,CinemaId,ProducerId,ActorIds")] EditMovieViewModel movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Price,MovieImageURL,StartDate,EndDate,Category,CinemaId,ProducerId,ActorIds")] MovieViewModel movie)
         {
             if (id != movie.Id)
             {

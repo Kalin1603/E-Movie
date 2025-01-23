@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace eMovies.ViewModels
 {
-    public class EditMovieViewModel
+    public class MovieViewModel
     {
         [Key]
         public int Id { get; set; }

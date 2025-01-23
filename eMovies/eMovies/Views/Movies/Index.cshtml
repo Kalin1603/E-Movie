@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <img src="@item.MovieImageURL" width="100%" alt="@item.Title">
+                        <img src="@item.MovieImageURL" alt="@item.Title">
                     </div>
                     <div class="col-md-6">
                         <div class="card-body">
@@ -65,4 +65,10 @@
             </div>
         </div>
     }
+</div>
+
+<div class="position-fixed" style="right: 25px; bottom: 25px;">
+    <a asp-controller="Movies" asp-action="Create" class="btn btn-success btn-lg d-flex align-items-center gap-2 btn-custom">
+        <i class="bi bi-plus-circle"></i> Add New
+    </a>
 </div>

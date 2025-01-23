@@ -11,6 +11,8 @@ namespace eMovies.Services
 
         Task<Movie> GetMovieByIdAsync(int? id);
 
-        Task UpdateMovieAsync(EditMovieViewModel data);
+        Task AddNewMovieAsync(MovieViewModel data);
+
+        Task UpdateMovieAsync(MovieViewModel data);
     }
 }

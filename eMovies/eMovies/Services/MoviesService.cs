@@ -23,7 +23,37 @@ namespace eMovies.Services
             return await _context.Movies.Include(m => m.Cinema).Include(m => m.Producer).Include(m => m.Actors).ThenInclude(ma => ma.Actor).FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task UpdateMovieAsync(EditMovieViewModel data)
+        public async Task AddNewMovieAsync(MovieViewModel data)
+        {
+            var newMovie = new Movie
+            {
+                MovieImageURL = data.MovieImageURL,
+                Title = data.Title,
+                StartDate = data.StartDate,
+                EndDate = data.EndDate,
+                Price = data.Price,
+                CinemaId = data.CinemaId,
+                Category = data.Category,
+                ProducerId = data.ProducerId,
+                Description = data.Description
+            };
+            await _context.Movies.AddAsync(newMovie);
+            await _context.SaveChangesAsync();
+
+            if (data.ActorIds != null && data.ActorIds.Any())
+            {
+                var newActorMovies = data.ActorIds.Select(actorId => new ActorMovie
+                {
+                    ActorId = actorId,
+                    MovieId = newMovie.Id
+                })
+                .ToList();
+                await _context.ActorMovies.AddRangeAsync(newActorMovies);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateMovieAsync(MovieViewModel data)
         {
             var newMovie = _context.Movies.FirstOrDefault(nm => nm.Id == data.Id);
 
