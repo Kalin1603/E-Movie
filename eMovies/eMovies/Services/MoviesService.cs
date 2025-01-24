@@ -93,5 +93,27 @@ namespace eMovies.Services
                 }
             }
         }
+
+        public async Task<TopUpcommingMoviesViewModel> GetTopUpcommingMoviesAsync()
+        {
+            var topMovies = new TopUpcommingMoviesViewModel();
+
+            topMovies.UpcommingMovies = await _context.Movies
+                .Where(m => m.StartDate > DateTime.Now)
+                .OrderBy(m => m.StartDate)
+                .Take(6)
+                .Select(m => new MovieViewModel
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    MovieImageURL = m.MovieImageURL,
+                    StartDate = m.StartDate,
+                    EndDate = m.EndDate,
+                    Price = m.Price,
+                    Category = m.Category
+                })
+                .ToListAsync();
+            return topMovies;
+        }
     }
 }

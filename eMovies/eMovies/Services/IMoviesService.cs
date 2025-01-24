@@ -14,5 +14,7 @@ namespace eMovies.Services
         Task AddNewMovieAsync(MovieViewModel data);
 
         Task UpdateMovieAsync(MovieViewModel data);
+
+        Task <TopUpcommingMoviesViewModel> GetTopUpcommingMoviesAsync();
     }
 }

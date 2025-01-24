@@ -1,8 +1,33 @@
-﻿@{
+﻿@model eMovies.ViewModels.HomeViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="home-container">
+    <div class="header">
+        <h1 class="display-4">Upcoming Movies</h1>
+        <p>Discover the latest movies that are coming soon to our cinemas.</p>
+    </div>
+
+    <div class="movies-grid">
+        @if (Model.TopUpcommingMovies?.UpcommingMovies?.Any() ?? false)
+        {
+            foreach (var movie in Model.TopUpcommingMovies.UpcommingMovies)
+            {
+                <div class="movie-card">
+                    <img src="@movie.MovieImageURL" alt="@movie.Title" class="movie-image" />
+                    <div class="movie-info">
+                        <h2 class="movie-title">@movie.Title</h2>
+                        <p class="movie-category">Category: @movie.Category</p>
+                        <p class="movie-dates">From @movie.StartDate.ToString("dd MMMM, yyyy").TrimEnd() to @movie.EndDate.ToString("dd MMMM, yyyy").TrimEnd()</p>
+                        <p class="movie-price">Price: $@movie.Price</p>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No upcoming movies available at the moment. Please check back later!</p>
+        }
+    </div>
 </div>

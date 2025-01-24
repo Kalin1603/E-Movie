@@ -1,5 +1,7 @@
 using System.Diagnostics;
 using eMovies.Models;
+using eMovies.Services;
+using eMovies.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eMovies.Controllers
@@ -7,15 +9,22 @@ namespace eMovies.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IMoviesService _moviesService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IMoviesService moviesService)
         {
             _logger = logger;
+            _moviesService = moviesService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            HomeViewModel homeView = new HomeViewModel()
+            {
+                TopUpcommingMovies = _moviesService.GetTopUpcommingMoviesAsync().Result
+            };
+
+            return View(homeView);
         }
 
         public IActionResult Privacy()

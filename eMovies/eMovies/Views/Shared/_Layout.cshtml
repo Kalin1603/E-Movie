@@ -17,7 +17,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Movies" asp-action="Index">eMovies</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">eMovies</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -46,7 +46,7 @@
 
                     <form class="form-inline my-2 my-lg-0" asp-controller="Movies" asp-action="Search" style="display: flex;">
                         <div class="searchBox">
-                            <input class="searchInput" name="searchString" type="text" placeholder="Search something">
+                            <input class="searchInput" name="searchString" type="text" placeholder="Search for a movie..." autocomplete="off">
                             <button class="searchButton">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none">
                                     <path d="M23.8 23.9L19.1 19.2M19.1 19.2C19.8 18.4 20.4 17.5 20.8 16.5C21.2 15.5 21.5 14.5 21.5 13.4C21.5 12.3 21.2 11.3 20.8 10.3C20.4 9.3 19.8 8.4 19.1 7.6C18.3 6.8 17.4 6.2 16.4 5.8C15.4 5.4 14.3 5.2 13.3 5.2C12.2 5.2 11.1 5.4 10.1 5.8C9.1 6.2 8.2 6.8 7.5 7.6C5.9 9.1 5.1 11.2 5.1 13.4C5.1 15.6 5.9 17.6 7.5 19.2C9 20.7 11.1 21.6 13.3 21.6C15.4 21.6 17.5 20.7 19.1 19.2Z"
