@@ -102,9 +102,6 @@ namespace eMovies.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Full name is required"), MaxLength(50, ErrorMessage = "Full name cannot exceed 50 symbols"), MinLength(3, ErrorMessage = "Full name cannot be less than 3 symbols")]
             public string FullName { get; set; }
 
-            [Required(ErrorMessage = "UserName is required"), MaxLength(50, ErrorMessage = "UserName cannot exceed 50 symbols"), MinLength(3, ErrorMessage = "UserName cannot be less than 3 symbols")]
-            public string UserName { get; set; }
-
             [MaxLength(10, ErrorMessage = "PhoneNumber cannot exceed 10 symbols"), MinLength(3, ErrorMessage = "PhoneNumber be less than 3 symbols")]
             public string PhoneNumber { get; set; }
 
@@ -144,10 +141,8 @@ namespace eMovies.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
                 user.FullName = Input.FullName;
-                user.UserName = Input.UserName;
-                user.Email = Input.Email;
-                user.DateOfBirth = Input.DateOfBirth;
                 user.PhoneNumber = Input.PhoneNumber;
+                user.DateOfBirth = Input.DateOfBirth;
                 user.Country = Input.Country;
                 user.City = Input.City;
                 user.State = Input.State;

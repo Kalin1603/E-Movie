@@ -8,9 +8,6 @@ namespace eMovies.Models
         [Required(ErrorMessage = "Full name is required"), MaxLength(50, ErrorMessage = "Full name cannot exceed 50 symbols"), MinLength(3, ErrorMessage = "Full name cannot be less than 3 symbols")]
         public string FullName { get; set; }
 
-        [Required(ErrorMessage = "Username is required"), MaxLength(50, ErrorMessage = "Username cannot exceed 50 symbols"), MinLength(3, ErrorMessage = "Username cannot be less than 3 symbols")]
-        public string UserName { get; set; }
-
         [Required(ErrorMessage = "Country is required"), MaxLength(50, ErrorMessage = "Country cannot exceed 50 symbols"), MinLength(3, ErrorMessage = "Country cannot be less than 3 symbols")]
         public string Country { get; set; }
 
