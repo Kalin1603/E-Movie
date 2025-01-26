@@ -41,10 +41,19 @@ namespace eMovies.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 var filteredMovie = movies.Where(s => s.Title.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
-                return View("Index", filteredMovie);
+                if (filteredMovie.Any())
+                {
+                    return View("Index", filteredMovie);
+                }
+                else
+                {
+                    ViewBag.Message = "No movies found for your search.";
+                    return View("NotFoundMovie");
+                }
             }
-            return View("Index", movies);
+            return View("NotFoundMovie");
         }
+
 
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)

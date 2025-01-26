@@ -12,8 +12,8 @@ using eMovies.Data;
 namespace eMovies.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250125124544_AddedNewTables")]
-    partial class AddedNewTables
+    [Migration("20250126152138_AddAllData")]
+    partial class AddAllData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -293,6 +293,7 @@ namespace eMovies.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
+                        .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
