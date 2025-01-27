@@ -41,5 +41,6 @@ button:active {
     outline: none;
     color: white;
     font-size: 15px;
+    width: 100%;
     padding: 24px 46px 24px 26px;
 }
