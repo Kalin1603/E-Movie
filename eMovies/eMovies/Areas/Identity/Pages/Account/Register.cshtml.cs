@@ -46,76 +46,53 @@ namespace eMovies.Areas.Identity.Pages.Account
             _roleManager = roleManager;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string ReturnUrl { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
             [Required(ErrorMessage = "Full name is required"), MaxLength(50, ErrorMessage = "Full name cannot exceed 50 symbols"), MinLength(3, ErrorMessage = "Full name cannot be less than 3 symbols")]
+            [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Full Name can only contain letters.")]
             public string FullName { get; set; }
 
-            [MaxLength(10, ErrorMessage = "PhoneNumber cannot exceed 10 symbols"), MinLength(3, ErrorMessage = "PhoneNumber be less than 3 symbols")]
+            [MaxLength(10, ErrorMessage = "PhoneNumber cannot exceed 10 digits"), MinLength(10, ErrorMessage = "Phone number cannot be less than 10 digits")]
             public string PhoneNumber { get; set; }
 
             [Required(ErrorMessage = "Country is required"), MaxLength(50, ErrorMessage = "Country cannot exceed 50 symbols"), MinLength(3, ErrorMessage = "Country cannot be less than 3 symbols")]
+            [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Country can only contain letters.")]
             public string Country { get; set; }
 
             [Required(ErrorMessage = "City is required"), MaxLength(50, ErrorMessage = "City cannot exceed 50 symbols"), MinLength(3, ErrorMessage = "City cannot be less than 3 symbols")]
+            [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "City can only contain letters.")]
             public string City { get; set; }
 
             [Required(ErrorMessage = "State is required"), MaxLength(50, ErrorMessage = "State cannot exceed 50 symbols"), MinLength(3, ErrorMessage = "State cannot be less than 3 symbols")]
+            [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "State can only contain letters.")]
             public string State { get; set; }
 
             public string Address { get; set; }
 
+            [RegularExpression(@"^\d{4,9}$", ErrorMessage = "Zip code must be between 4 and 9 digits."), MinLength(4, ErrorMessage = "Zip Code cannot be less than 4 digits"), MaxLength(9, ErrorMessage = "Zip Code cannot exceed 10 digits")]
             public string Zip { get; set; }
 
             [Required(ErrorMessage = "Date of birth is required")]
@@ -163,8 +140,8 @@ namespace eMovies.Areas.Identity.Pages.Account
 
                     await _userManager.AddToRoleAsync(user, "User");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    TempData["SuccessMessage"] = "You registered successfully. Please log in.";
+                    return RedirectToPage("Login");
                 }
                 foreach (var error in result.Errors)
                 {

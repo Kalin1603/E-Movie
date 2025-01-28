@@ -15,9 +15,9 @@ body {
     margin-bottom: 40px;
 }
 
-    .header .display-4 {
-        color: #2AF598;
-    }
+.header .display-4 {
+    color: white;
+}
 
 .movies-grid {
     display: grid;
@@ -34,10 +34,10 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-    .movie-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
-    }
+.movie-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+}
 
 .movie-image {
     width: 500px; 
@@ -62,4 +62,42 @@ body {
     font-size: 18px; 
     color: #ccc;
     margin-bottom: 5px;
+}
+
+/* Custom styles for form-floating */
+.form-floating .form-control {
+    background-color: #2f3640;
+    color: white;
+    border: 1px solid #444;
+}
+
+.form-floating .form-control::placeholder {
+    color: #ccc;
+    opacity: 1;
+}
+
+.form-floating .form-label {
+    color: #ccc;
+}
+
+.form-floating .form-control:focus {
+    background-color: #2f3640;
+    color: white;
+    border-color: #2AF598;
+    box-shadow: none;
+}
+
+.form-floating .form-control:focus::placeholder {
+    color: transparent;
+}
+
+.form-floating .form-label {
+    color: #ccc;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.form-floating .form-control:focus ~ .form-label,
+.form-floating .form-control:not(:placeholder-shown) ~ .form-label {
+    color: #2AF598;
+    transform: scale(0.85) translateY(-1.5rem);
 }

@@ -3,6 +3,13 @@
     ViewData["Title"] = "Home Page";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successMessage" class="alert alert-success text-center">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <div class="home-container">
     <div class="header">
         <h1 class="display-4">Upcoming Movies</h1>
@@ -31,3 +38,16 @@
         }
     </div>
 </div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var successMessage = document.getElementById("successMessage");
+            if (successMessage) {
+                setTimeout(function () {
+                    successMessage.style.display = "none";
+                }, 5000); // Hide after 5 seconds
+            }
+        });
+    </script>
+}
