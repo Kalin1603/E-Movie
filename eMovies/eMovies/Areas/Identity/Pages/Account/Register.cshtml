@@ -17,9 +17,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-floating mb-3">
-                        <input asp-for="Input.FullName" class="form-control" aria-required="true" />
-                        <label asp-for="Input.FullName" class="form-label text-black">Full Name</label>
-                        <span asp-validation-for="Input.FullName" class="text-danger"></span>
+                        <input asp-for="Input.UserName" class="form-control" aria-required="true" />
+                        <label asp-for="Input.UserName" class="form-label text-black">Username</label>
+                        <span asp-validation-for="Input.UserName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -51,9 +51,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-floating mb-3">
-                        <input asp-for="Input.PhoneNumber" class="form-control" aria-required="true" />
-                        <label asp-for="Input.PhoneNumber" class="form-label text-black">Phone number</label>
-                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                        <input asp-for="Input.FullName" class="form-control" aria-required="true" />
+                        <label asp-for="Input.FullName" class="form-label text-black">Full Name</label>
+                        <span asp-validation-for="Input.FullName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -68,11 +68,21 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-floating mb-3">
+                        <input asp-for="Input.PhoneNumber" class="form-control" aria-required="true" />
+                        <label asp-for="Input.PhoneNumber" class="form-label text-black">Phone number</label>
+                        <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mb-3">
                         <input asp-for="Input.Country" class="form-control" aria-required="true" />
                         <label asp-for="Input.Country" class="form-label text-black">Country</label>
                         <span asp-validation-for="Input.Country" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-floating mb-3">
                         <input asp-for="Input.City" class="form-control" aria-required="true" />
@@ -80,9 +90,6 @@
                         <span asp-validation-for="Input.City" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-floating mb-3">
                         <input asp-for="Input.State" class="form-control" aria-required="true" />
@@ -90,6 +97,9 @@
                         <span asp-validation-for="Input.State" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-6">
                     <div class="form-floating mb-3">
                         <input asp-for="Input.Address" class="form-control" />
@@ -97,9 +107,6 @@
                         <span asp-validation-for="Input.Address" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
                 <div class="col-md-6">
                     <div class="form-floating mb-3">
                         <input asp-for="Input.Zip" class="form-control" />
