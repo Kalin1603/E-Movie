@@ -66,4 +66,6 @@ app.MapRazorPages()
 //Seed database
 ApplicationDbInitializer.Seed(app);
 
+//Seed admin
+await SeedAdmin.SeedAdminAsync(app);
 app.Run();
