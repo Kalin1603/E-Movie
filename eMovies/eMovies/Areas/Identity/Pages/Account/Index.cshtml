@@ -1,0 +1,32 @@
+﻿@page
+@model eMovies.Areas.Identity.Pages.Account.IndexModel
+
+@{
+    ViewData["Title"] = "Registered Users";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card p-4 shadow-sm bg-dark text-white">
+            <h2 class="text-center">Registered Users</h2>
+            <hr />
+            <table class="table table-bordered table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.Users)
+                    {
+                        <tr>
+                            <td>@user.FullName</td>
+                            <td>@user.Email</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

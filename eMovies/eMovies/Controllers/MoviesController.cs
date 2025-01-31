@@ -9,9 +9,11 @@ using eMovies.Data;
 using eMovies.Models;
 using eMovies.Services;
 using eMovies.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eMovies.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MoviesController : Controller
     {
         private readonly IMoviesService _moviesService;
@@ -27,6 +29,7 @@ namespace eMovies.Controllers
             _actorsService = actorsService;
         }
 
+        [AllowAnonymous]
         // GET: Movies
         public async Task<IActionResult> Index()
         {
@@ -34,6 +37,7 @@ namespace eMovies.Controllers
             return View(await allMovies);
         }
 
+        [AllowAnonymous]
         //Search Movies
         public async Task<IActionResult> Search(string searchString)
         {
@@ -54,7 +58,7 @@ namespace eMovies.Controllers
             return View("NotFoundMovie");
         }
 
-
+        [AllowAnonymous]
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {

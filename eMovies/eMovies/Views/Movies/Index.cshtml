@@ -15,7 +15,10 @@
                             <p class="card-text">
                                 <h5 class="card-title">
                                     @item.Title
+                                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                    {
                                         <a class="text-white float-end" asp-action="Edit" asp-route-id="@item.Id"><i class="bi bi-pencil-square"></i></a>
+                                    }
                                     
                                 </h5>
                             </p>
@@ -67,8 +70,11 @@
     }
 </div>
 
-<div class="position-fixed" style="right: 25px; bottom: 25px;">
-    <a asp-controller="Movies" asp-action="Create" class="btn btn-success btn-lg d-flex align-items-center gap-2 btn-custom">
-        <i class="bi bi-plus-circle"></i> Add New
-    </a>
-</div>
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <div class="position-fixed" style="right: 25px; bottom: 25px;">
+        <a asp-controller="Movies" asp-action="Create" class="btn btn-success btn-lg d-flex align-items-center gap-2 btn-custom">
+            <i class="bi bi-plus-circle"></i> Add New
+        </a>
+    </div>
+}

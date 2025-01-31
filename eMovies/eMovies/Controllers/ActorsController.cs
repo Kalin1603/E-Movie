@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using eMovies.Data;
 using eMovies.Models;
 using eMovies.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eMovies.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ActorsController : Controller
     {
         private readonly IActorsService _service;
@@ -20,12 +22,14 @@ namespace eMovies.Controllers
             _service = service;
         }
 
+        [AllowAnonymous]
         // GET: Actors
         public async Task<IActionResult> Index()
         {
             return View(await _service.GetAllAsync());
         }
 
+        [AllowAnonymous]
         // GET: Actors/Details/5
         public async Task<IActionResult> Details(int? id)
         {

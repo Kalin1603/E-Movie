@@ -27,27 +27,32 @@
                             <li><b>Website:</b> <a href="@item.Website" target="_blank" class="text-decoration-none">@item.Website</a></li>
                         </ul>
                     </div>
-                    <div class="card-footer text-center" style="background-color: #f8f9fa;">
-                        <div class="d-flex justify-content-center gap-3">
-                            <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id">
-                                <i class="bi bi-pencil-square"></i> Edit
-                            </a>
-                            <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@item.Id">
-                                <i class="bi bi-eye"></i> Details
-                            </a>
-                            <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">
-                                <i class="bi bi-trash"></i> Delete
-                            </a>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <div class="card-footer text-center" style="background-color: #f8f9fa;">
+                            <div class="d-flex justify-content-center gap-3">
+                                <a class="btn btn-outline-primary btn-sm" asp-action="Edit" asp-route-id="@item.Id">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                                <a class="btn btn-outline-info btn-sm" asp-action="Details" asp-route-id="@item.Id">
+                                    <i class="bi bi-eye"></i> Details
+                                </a>
+                                <a class="btn btn-outline-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">
+                                    <i class="bi bi-trash"></i> Delete
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
         }
     </div>
 </div>
-
-<div class="position-fixed" style="right: 25px; bottom: 25px;">
-    <a asp-controller="Cinemas" asp-action="Create" class="btn btn-success btn-lg d-flex align-items-center gap-2 btn-custom">
-        <i class="bi bi-plus-circle"></i> Add New
-    </a>
-</div>
+@if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <div class="position-fixed" style="right: 25px; bottom: 25px;">
+        <a asp-controller="Cinemas" asp-action="Create" class="btn btn-success btn-lg d-flex align-items-center gap-2 btn-custom">
+            <i class="bi bi-plus-circle"></i> Add New
+        </a>
+    </div>
+}
