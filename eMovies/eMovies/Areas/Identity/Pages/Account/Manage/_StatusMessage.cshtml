@@ -1,0 +1,19 @@
+﻿@model string
+
+@if (!string.IsNullOrEmpty(Model))
+{
+    var statusMessageClass = Model.StartsWith("Error") ? "danger" : "success";
+    <div class="d-flex justify-content-center">
+        <div class="alert alert-@statusMessageClass alert-dismissible fade show" role="alert">
+            @if (statusMessageClass == "danger")
+            {
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            }
+            else
+            {
+                <i class="bi bi-check-circle-fill me-2"></i>
+            }
+            @Model
+        </div>
+    </div>
+}

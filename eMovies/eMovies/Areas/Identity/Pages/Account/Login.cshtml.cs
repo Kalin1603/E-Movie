@@ -41,6 +41,9 @@ namespace eMovies.Areas.Identity.Pages.Account
         [TempData]
         public string ErrorMessage { get; set; }
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public class InputModel
         {
             [Required]
@@ -86,8 +89,8 @@ namespace eMovies.Areas.Identity.Pages.Account
                     var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
-                        TempData["SuccessMessage"] = "You logged in successfully. Enjoy your time!";
-                        return LocalRedirect(returnUrl);
+                        StatusMessage = "You logged in successfully. Enjoy your time!";
+                        return RedirectToAction("Index", "Home");
                     }
                     if (result.RequiresTwoFactor)
                     {
@@ -105,14 +108,14 @@ namespace eMovies.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    var userByName = await _userManager.FindByNameAsync(Input.Email); 
+                    var userByName = await _userManager.FindByNameAsync(Input.Email);
                     if (userByName != null)
                     {
                         var result = await _signInManager.PasswordSignInAsync(userByName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                         if (result.Succeeded)
                         {
-                            TempData["SuccessMessage"] = "You logged in successfully. Enjoy your time!";
-                            return LocalRedirect(returnUrl);
+                            StatusMessage = "You logged in successfully. Enjoy your time!";
+                            return RedirectToAction("Index", "Home");
                         }
                     }
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");

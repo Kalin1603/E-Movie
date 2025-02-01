@@ -49,6 +49,9 @@ namespace eMovies.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         public string ReturnUrl { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
@@ -95,6 +98,7 @@ namespace eMovies.Areas.Identity.Pages.Account
             [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "State can only contain letters.")]
             public string State { get; set; }
 
+            [RegularExpression(@"^[a-zA-Z0-9\s]+$", ErrorMessage = "Address can only contain letters.")]
             public string Address { get; set; }
 
             [RegularExpression(@"^\d{4,9}$", ErrorMessage = "Zip code must be between 4 and 9 digits."), MinLength(4, ErrorMessage = "Zip Code cannot be less than 4 digits"), MaxLength(9, ErrorMessage = "Zip Code cannot exceed 10 digits")]
@@ -103,7 +107,6 @@ namespace eMovies.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "Date of birth is required")]
             public DateTime DateOfBirth { get; set; }
         }
-
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -145,7 +148,7 @@ namespace eMovies.Areas.Identity.Pages.Account
 
                     await _userManager.AddToRoleAsync(user, "User");
 
-                    TempData["SuccessMessage"] = "You registered successfully. Please log in.";
+                    StatusMessage = "You registered successfully. Please log in.";
                     return RedirectToPage("Login");
                 }
                 foreach (var error in result.Errors)

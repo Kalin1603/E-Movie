@@ -6,13 +6,7 @@
 }
 
 <h1 class="text-center">@ViewData["Title"]</h1>
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div id="successMessage" class="alert alert-success text-center">
-        @TempData["SuccessMessage"]
-    </div>
-}
+<partial name="~/Areas/Identity/Pages/Account/Manage/_StatusMessage.cshtml" model="Model.StatusMessage" />
 
 <div class="row justify-content-center">
     <div class="col-md-6 col-lg-4">
@@ -59,13 +53,12 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var successMessage = document.getElementById("successMessage");
-            if (successMessage) {
-                setTimeout(function () {
-                    successMessage.style.display = "none";
-                }, 5000); // Hide after 5 seconds
+        setTimeout(function () {
+            let alertElement = document.querySelector(".alert-dismissible");
+            if (alertElement) {
+                let bsAlert = new bootstrap.Alert(alertElement);
+                bsAlert.close();
             }
-        });
+        }, 5000);
     </script>
 }

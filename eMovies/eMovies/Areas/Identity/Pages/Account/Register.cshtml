@@ -6,6 +6,7 @@
 }
 
 <h1 class="text-center">@ViewData["Title"]</h1>
+<partial name="~/Areas/Identity/Pages/Account/Manage/_StatusMessage.cshtml" model="Model.StatusMessage" />
 
 <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
@@ -123,4 +124,13 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        setTimeout(function () {
+            let alertElement = document.querySelector(".alert-dismissible");
+            if (alertElement) {
+                let bsAlert = new bootstrap.Alert(alertElement);
+                bsAlert.close();
+            }
+        }, 5000);
+    </script>
 }

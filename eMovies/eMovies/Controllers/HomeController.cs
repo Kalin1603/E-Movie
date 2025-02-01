@@ -19,10 +19,15 @@ namespace eMovies.Controllers
 
         public IActionResult Index()
         {
-            HomeViewModel homeView = new HomeViewModel()
+            var homeView = new HomeViewModel
             {
                 TopUpcommingMovies = _moviesService.GetTopUpcommingMoviesAsync().Result
             };
+
+            if (TempData.ContainsKey("StatusMessage"))
+            {
+                homeView.StatusMessage = TempData["StatusMessage"].ToString();
+            }
 
             return View(homeView);
         }

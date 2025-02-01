@@ -5,7 +5,6 @@
 @{
     var currentUser = await UserManager.GetUserAsync(User);
     var fullname = currentUser?.FullName;
-    var email = currentUser?.Email;
 }
 
 <ul class="navbar-nav">
@@ -17,13 +16,11 @@
             </button>
 
             <ul class="dropdown-menu" aria-labelledby="profile-btn">
-                <li class="dropdown-item disabled">
-                    <strong>Full Name:</strong> @fullname
+                <li>
+                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
+                        <i class="bi bi-gear"></i> Profile settings
+                    </a>
                 </li>
-                <li class="dropdown-item disabled">
-                    <strong>Email:</strong> @email
-                </li>
-                <li><hr class="dropdown-divider"></li>
 
                 @* <li>
                     <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
@@ -33,7 +30,7 @@
 
                 @if (User.IsInRole("Admin"))
                 {
-                    <li><hr class="dropdown-divider"></li>
+                    <hr class="dropdown-divider">
                     <li>
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Index">
                             <i class="bi bi-people"></i> Registered Users
