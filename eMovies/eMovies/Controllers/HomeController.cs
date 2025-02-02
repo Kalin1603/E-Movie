@@ -24,10 +24,7 @@ namespace eMovies.Controllers
                 TopUpcommingMovies = _moviesService.GetTopUpcommingMoviesAsync().Result
             };
 
-            if (TempData.ContainsKey("StatusMessage"))
-            {
-                homeView.StatusMessage = TempData["StatusMessage"].ToString();
-            }
+            homeView.StatusMessage = (string)TempData["StatusMessage"];
 
             return View(homeView);
         }

@@ -9,6 +9,8 @@ namespace eMovies.Models
         [Key]
         public int Id { get; set; }
 
+        public string Email { get; set; }
+
         [ForeignKey(nameof(AppUser))]
         public string UserId { get; set; }
         public AppUser User { get; set; }
