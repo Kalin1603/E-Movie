@@ -7,158 +7,78 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using eMovies.Data;
 using eMovies.Models;
+using eMovies.Services;
+using eMovies.Card;
+using System.Security.Claims;
+using eMovies.ViewModels;
 
 namespace eMovies.Controllers
 {
     public class OrdersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMoviesService _moviesService;
+        private readonly ShoppingCard _shoppingCard;
+        private readonly IOrdersService _ordersService;
 
-        public OrdersController(ApplicationDbContext context)
+        public OrdersController(IMoviesService moviesService, ShoppingCard shoppingCard, IOrdersService ordersService)
         {
-            _context = context;
+            _moviesService = moviesService;
+            _shoppingCard = shoppingCard;
+            _ordersService = ordersService;
         }
 
-        // GET: Orders
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Orders.Include(o => o.User);
-            return View(await applicationDbContext.ToListAsync());
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userRole = User.FindFirstValue(ClaimTypes.Role);
+
+            var orders = await _ordersService.GetOrdersByUserIdAndRoleAsync(userId, userRole);
+            return View(orders);
         }
 
-        // GET: Orders/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult ShoppingCard()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var items = _shoppingCard.GetShoppingCardItems();
+            _shoppingCard.ShoppingCardItems = items;
 
-            var order = await _context.Orders
-                .Include(o => o.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
+            var shoppingCartViewModel = new ShoppingCardViewModel
             {
-                return NotFound();
-            }
+                ShoppingCard = _shoppingCard,
+                ShoppingCardTotal = _shoppingCard.GetShoppingCardTotal()
+            };
 
-            return View(order);
+            return View(shoppingCartViewModel);
         }
 
-        // GET: Orders/Create
-        public IActionResult Create()
+        public async Task<IActionResult> AddItemToShoppingCard(int movieId)
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            var selectedMovie = await _moviesService.GetMovieByIdAsync(movieId);
+            if (selectedMovie != null)
+            {
+                await _shoppingCard.AddItemToCardAsync(selectedMovie, 1);
+            }
+            return RedirectToAction("ShoppingCard");
         }
 
-        // POST: Orders/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,UserId,Status")] Order order)
+        public async Task<IActionResult> RemoveItemFromShoppingCard(int movieId)
         {
-            if (ModelState.IsValid)
+            var selectedMovie = await _moviesService.GetMovieByIdAsync(movieId);
+            if (selectedMovie != null)
             {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await _shoppingCard.RemoveItemFromCardAsync(selectedMovie);
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", order.UserId);
-            return View(order);
+            return RedirectToAction("ShoppingCard");
         }
-
-        // GET: Orders/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> CompleteOrder()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var items = _shoppingCard.GetShoppingCardItems();
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userEmailAddress = User.FindFirstValue(ClaimTypes.Email);
 
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", order.UserId);
-            return View(order);
-        }
+            await _ordersService.StoreOrderAsync(items, userId);
+            await _shoppingCard.ClearShoppingCardAsync();
 
-        // POST: Orders/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,Status")] Order order)
-        {
-            if (id != order.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", order.UserId);
-            return View(order);
-        }
-
-        // GET: Orders/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Orders
-                .Include(o => o.User)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
-        }
-
-        // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var order = await _context.Orders.FindAsync(id);
-            if (order != null)
-            {
-                _context.Orders.Remove(order);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool OrderExists(int id)
-        {
-            return _context.Orders.Any(e => e.Id == id);
+            return View("OrderCompleted");
         }
     }
 }
