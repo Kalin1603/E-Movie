@@ -1,4 +1,5 @@
 ﻿using eMovies.Card;
+using eMovies.Enums;
 
 namespace eMovies.ViewModels
 {

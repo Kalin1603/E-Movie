@@ -11,9 +11,12 @@ using eMovies.Services;
 using eMovies.Card;
 using System.Security.Claims;
 using eMovies.ViewModels;
+using eMovies.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace eMovies.Controllers
 {
+    [Authorize]
     public class OrdersController : Controller
     {
         private readonly IMoviesService _moviesService;
@@ -75,10 +78,49 @@ namespace eMovies.Controllers
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             string userEmailAddress = User.FindFirstValue(ClaimTypes.Email);
 
+            var order = new Order
+            {
+                UserId = userId,
+                Email = userEmailAddress,
+                Status = OrderStatus.Pending,
+                OrderItems = items.Select(item => new OrderItem
+                {
+                    MovieId = item.Movie.Id,
+                    Quantity = item.Quantity,
+                    Price = item.Movie.Price
+                }).ToList()
+            };
+
             await _ordersService.StoreOrderAsync(items, userId);
             await _shoppingCard.ClearShoppingCardAsync();
 
             return View("OrderCompleted");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ChangeOrderStatus(int orderId, OrderStatus newStatus)
+        {
+            var order = await _ordersService.GetOrderByIdAsync(orderId);
+            if (order != null)
+            {
+                if (order.Status == OrderStatus.Pending)
+                {
+                    order.Status = newStatus;
+
+                    await _ordersService.UpdateOrderStatusAsync(order);
+
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return BadRequest("Cannot change status of a completed order.");
+                }
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

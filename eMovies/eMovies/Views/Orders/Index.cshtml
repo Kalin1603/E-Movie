@@ -1,41 +1,78 @@
-﻿@model IEnumerable<eMovies.Models.Order>
+﻿@using eMovies.Enums
+@model List<Order>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "All orders";
 }
 
-<h1>Index</h1>
+<div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+        <div class="card p-4 shadow-sm bg-dark text-white">
+            <h2 class="text-center">List of all your orders</h2>
+            <hr />
+            <table class="table table-bordered table-dark table-hover">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <th>User</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td class="align-middle">@order.Id</td>
+                            <td class="align-middle">
+                                <ul style="list-style-type:none; padding-left: 0;">
+                                    @foreach (var item in order.OrderItems)
+                                    {
+                                        <li>
+                                            <div class="alert alert-info" role="alert">
+                                                <span class="badge bg-success">@item.Quantity</span> [@item.Price.ToString("c")] - @item.Movie.Title
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </td>
+                            <td class="align-middle">
+                                @order.OrderItems.Select(m => m.Price * m.Quantity).Sum().ToString("c")
+                            </td>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <td class="align-middle"> @order.User.FullName </td>
+                                <td class="align-middle">
+                                    <span>@order.Status</span>
+                                </td>
+                                <td class="align-middle">
+                                    @if (order.Status == OrderStatus.Pending)
+                                    {
+                                        <form method="post" asp-action="ChangeOrderStatus" asp-route-orderId="@order.Id">
+                                            <label for="newStatus">Change Status:</label>
+                                            <select id="newStatus" name="newStatus" class="form-select">
+                                                <option value="Approved">Approved</option>
+                                                <option value="Rejected">Rejected</option>
+                                            </select>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                                            <button type="submit" class="btn btn-primary mt-2">Change Status</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">Cannot change status</span>
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

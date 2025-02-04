@@ -14,6 +14,11 @@ namespace eMovies.Services
             _context = context;
         }
 
+        public async Task<Order> GetOrderByIdAsync(int orderId)
+        {
+            return await _context.Orders.Include(o => o.OrderItems).ThenInclude(oi => oi.Movie).FirstOrDefaultAsync(o => o.Id == orderId);
+        }
+
         public async Task<List<Order>> GetOrdersByUserIdAndRoleAsync(string userId, string userRole)
         {
             var orders = await _context.Orders
@@ -61,6 +66,21 @@ namespace eMovies.Services
                 await _context.OrderItems.AddAsync(orderItem);
             }
             await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateOrderStatusAsync(Order order)
+        {
+            var existingOrder = await _context.Orders.Include(o => o.OrderItems).FirstOrDefaultAsync(o => o.Id == order.Id);
+
+            if (existingOrder == null)
+            {
+                throw new Exception("Order not found");
+            }
+            else
+            {
+                existingOrder.Status = order.Status;
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

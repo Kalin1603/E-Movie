@@ -1,3 +1,4 @@
+using eMovies.Card;
 using eMovies.Data;
 using eMovies.Models;
 using eMovies.Services;
@@ -33,6 +34,15 @@ builder.Services.AddScoped<IActorsService, ActorsService>();
 builder.Services.AddScoped<IProducersService, ProducersService>();
 builder.Services.AddScoped<ICinemasService, CinemasService>();
 builder.Services.AddScoped<IMoviesService, MoviesService>();
+builder.Services.AddScoped<IOrdersService, OrdersService>();
+
+//Card configuration
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddScoped<ShoppingCard>(sc => ShoppingCard.GetCard(sc));
+
+//Session configuration
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -49,8 +59,14 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseRouting();
+app.UseStaticFiles();
 
+//Routing configuration
+app.UseRouting();
+app.UseSession();
+
+//Authentication and Authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

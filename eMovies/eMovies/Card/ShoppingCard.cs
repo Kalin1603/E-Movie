@@ -7,18 +7,22 @@ namespace eMovies.Card
     public class ShoppingCard
     {
         private readonly ApplicationDbContext _context;
-        private readonly ISession _session;
 
         public string ShoppingCardId { get; set; }
         public List<ShoppingCardItem> ShoppingCardItems { get; set; }
 
-        public ShoppingCard(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+        public ShoppingCard(ApplicationDbContext context)
         {
             _context = context;
-            _session = httpContextAccessor.HttpContext.Session;
+        }
 
-            ShoppingCardId = _session.GetString("ShoppingCardId") ?? Guid.NewGuid().ToString();
-            _session.SetString("ShoppingCardId", ShoppingCardId);
+        public static ShoppingCard GetCard(IServiceProvider services)
+        {
+            var context = services.GetRequiredService<ApplicationDbContext>();
+            var session = services.GetRequiredService<IHttpContextAccessor>().HttpContext.Session;
+            var cardId = session.GetString("CardId") ?? Guid.NewGuid().ToString();
+            session.SetString("CardId", cardId);
+            return new ShoppingCard(context) { ShoppingCardId = cardId };
         }
 
         public async Task AddItemToCardAsync(Movie movie, int quantity)
