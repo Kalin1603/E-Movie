@@ -1,0 +1,18 @@
+﻿@model eMovies.ViewModels.ShoppingCardViewModel
+
+@if (Model.ShoppingCard.ShoppingCardItems.Count > 0)
+{
+    <li class="cart-icon" data-count="@Model.ShoppingCard.ShoppingCardItems.Count">
+        <a asp-controller="Orders" asp-action="ShoppingCard">
+            <i class="bi bi-cart4"></i>
+        </a>
+    </li>
+}
+else
+{
+    <li class="cart-icon" data-count="0">
+        <a asp-controller="Orders" asp-action="ShoppingCard">
+            <i class="bi bi-cart4"></i>
+        </a>
+    </li>
+}

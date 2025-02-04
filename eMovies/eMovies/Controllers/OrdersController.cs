@@ -53,25 +53,26 @@ namespace eMovies.Controllers
             return View(shoppingCartViewModel);
         }
 
-        public async Task<IActionResult> AddItemToShoppingCard(int movieId)
+        public async Task<IActionResult> AddItemToShoppingCard(int id)
         {
-            var selectedMovie = await _moviesService.GetMovieByIdAsync(movieId);
+            var selectedMovie = await _moviesService.GetMovieByIdAsync(id);
             if (selectedMovie != null)
             {
-                await _shoppingCard.AddItemToCardAsync(selectedMovie, 1);
+                await _shoppingCard.AddItemToCardAsync(selectedMovie);
             }
             return RedirectToAction("ShoppingCard");
         }
 
-        public async Task<IActionResult> RemoveItemFromShoppingCard(int movieId)
+        public async Task<IActionResult> RemoveItemFromShoppingCard(int id)
         {
-            var selectedMovie = await _moviesService.GetMovieByIdAsync(movieId);
+            var selectedMovie = await _moviesService.GetMovieByIdAsync(id);
             if (selectedMovie != null)
             {
                 await _shoppingCard.RemoveItemFromCardAsync(selectedMovie);
             }
             return RedirectToAction("ShoppingCard");
         }
+
         public async Task<IActionResult> CompleteOrder()
         {
             var items = _shoppingCard.GetShoppingCardItems();
@@ -94,7 +95,7 @@ namespace eMovies.Controllers
             await _ordersService.StoreOrderAsync(items, userId);
             await _shoppingCard.ClearShoppingCardAsync();
 
-            return View("OrderCompleted");
+            return View("OrderComplete");
         }
 
         [HttpPost]

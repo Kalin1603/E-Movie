@@ -15,15 +15,15 @@ body {
     margin-bottom: 40px;
 }
 
-.header .display-4 {
-    color: white;
-}
+    .header .display-4 {
+        color: white;
+    }
 
 .movies-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 15px; 
-    justify-items: center; 
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    justify-items: center;
 }
 
 .movie-card {
@@ -34,24 +34,24 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.movie-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
-}
+    .movie-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+    }
 
 .movie-image {
-    width: 500px; 
-    height: 450px; 
+    width: 500px;
+    height: 450px;
     object-fit: cover;
 }
 
 .movie-info {
-    padding: 20px; 
+    padding: 20px;
     text-align: left;
 }
 
 .movie-title {
-    font-size: 20px; 
+    font-size: 20px;
     color: #fff;
     margin-bottom: 10px;
 }
@@ -59,7 +59,7 @@ body {
 .movie-category,
 .movie-dates,
 .movie-price {
-    font-size: 18px; 
+    font-size: 18px;
     color: #ccc;
     margin-bottom: 5px;
 }
@@ -71,10 +71,10 @@ body {
     border: 1px solid #444;
 }
 
-.form-floating .form-control::placeholder {
-    color: #ccc;
-    opacity: 1;
-}
+    .form-floating .form-control::placeholder {
+        color: #ccc;
+        opacity: 1;
+    }
 
 .form-floating .form-label {
     color: #ccc;
@@ -87,9 +87,9 @@ body {
     box-shadow: none;
 }
 
-.form-floating .form-control:focus::placeholder {
-    color: transparent;
-}
+    .form-floating .form-control:focus::placeholder {
+        color: transparent;
+    }
 
 .form-floating .form-label {
     color: #ccc;
@@ -101,3 +101,61 @@ body {
     color: #2AF598;
     transform: scale(0.85) translateY(-1.5rem);
 }
+
+/* Custom nav shopping card summary */
+.shopping-cart-summary {
+    display: flex;
+    align-items: center;
+}
+
+    .shopping-cart-summary li {
+        list-style: none;
+        margin: 0 10px;
+    }
+
+    .shopping-cart-summary a {
+        color: #000;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+    }
+
+        .shopping-cart-summary a:hover {
+            color: #198754;
+        }
+
+    .shopping-cart-summary i {
+        font-size: 1.5rem;
+    }
+
+    .shopping-cart-summary .badge {
+        background-color: #007bff;
+        color: #fff;
+        font-size: 0.8rem;
+    }
+
+/* Dynamic styles for shopping cart summary */
+.shopping-cart-summary {
+    position: relative;
+}
+
+    .shopping-cart-summary .cart-icon {
+        position: relative;
+    }
+
+        .shopping-cart-summary .cart-icon::after {
+            content: attr(data-count);
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #198754;
+            color: #fff;
+            font-size: 0.8rem;
+            border-radius: 50%;
+            padding: 2px 6px;
+            display: none;
+        }
+
+        .shopping-cart-summary .cart-icon[data-count]:not([data-count="0"])::after {
+            display: inline-block;
+        }

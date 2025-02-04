@@ -58,6 +58,9 @@
                         </div>
                     </form>
 
+                    <ul class="navbar-nav shopping-cart-summary">
+                        @await Component.InvokeAsync("ShoppingCardSummary")
+                    </ul>
 
                     <partial name="_LoginPartial" />
                 </div>

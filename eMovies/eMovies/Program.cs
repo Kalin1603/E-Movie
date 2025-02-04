@@ -29,20 +29,22 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-//Services configuration
+// Services configuration
 builder.Services.AddScoped<IActorsService, ActorsService>();
 builder.Services.AddScoped<IProducersService, ProducersService>();
 builder.Services.AddScoped<ICinemasService, CinemasService>();
 builder.Services.AddScoped<IMoviesService, MoviesService>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
 
-//Card configuration
+// Card configuration
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddScoped<ShoppingCard>(sc => ShoppingCard.GetCard(sc));
+builder.Services.AddScoped(sc => ShoppingCard.GetCard(sc));
 
-//Session configuration
+// Add services to the container.
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+
+// Other service registrations...
 
 var app = builder.Build();
 
@@ -54,34 +56,32 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-//Routing configuration
+// Routing configuration
 app.UseRouting();
+// Configure the HTTP request pipeline.
 app.UseSession();
 
-//Authentication and Authorization
+// Authentication and Authorization
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapRazorPages();
 
-//Seed database
+// Seed database
 ApplicationDbInitializer.Seed(app);
 
-//Seed admin
+// Seed admin
 await SeedAdmin.SeedAdminAsync(app);
+// Other middleware...
+
 app.Run();

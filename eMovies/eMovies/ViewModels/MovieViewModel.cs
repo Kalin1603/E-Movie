@@ -15,7 +15,7 @@ namespace eMovies.ViewModels
 
         [Display(Name = "Description")]
         [Required(ErrorMessage = "Description is required.")]
-        [StringLength(1000, ErrorMessage = "Description cannot exceed 1000 characters.")]
+        [StringLength(230, ErrorMessage = "Description cannot exceed 230 characters.")]
         public string Description { get; set; }
 
         [Display(Name = "Price")]
