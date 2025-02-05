@@ -3,6 +3,7 @@ using eMovies.Data;
 using eMovies.Models;
 using eMovies.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +36,9 @@ builder.Services.AddScoped<IProducersService, ProducersService>();
 builder.Services.AddScoped<ICinemasService, CinemasService>();
 builder.Services.AddScoped<IMoviesService, MoviesService>();
 builder.Services.AddScoped<IOrdersService, OrdersService>();
+
+// Email configuration
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 // Card configuration
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

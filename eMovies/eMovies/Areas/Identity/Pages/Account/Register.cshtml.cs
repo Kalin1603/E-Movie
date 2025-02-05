@@ -104,6 +104,7 @@ namespace eMovies.Areas.Identity.Pages.Account
             [RegularExpression(@"^\d{4,9}$", ErrorMessage = "Zip code must be between 4 and 9 digits."), MinLength(4, ErrorMessage = "Zip Code cannot be less than 4 digits"), MaxLength(9, ErrorMessage = "Zip Code cannot exceed 10 digits")]
             public string Zip { get; set; }
 
+            [DataType(DataType.Date)]
             [Required(ErrorMessage = "Date of birth is required")]
             public DateTime DateOfBirth { get; set; }
         }

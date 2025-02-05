@@ -1,9 +1,11 @@
 ﻿using eMovies.Card;
 using eMovies.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eMovies.ViewComponents
 {
+    [Authorize]
     public class ShoppingCardSummary : ViewComponent
     {
         private readonly ShoppingCard _shoppingCard;
