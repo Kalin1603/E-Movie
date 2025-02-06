@@ -58,23 +58,53 @@ namespace eMovies.Areas.Identity.Pages.Account
                 if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToPage("./ForgotPasswordConfirmation");
+                    ModelState.AddModelError(string.Empty, "The user with this email does not exist or has not confirmed their email.");
+                    return Page();
                 }
 
                 // For more information on how to enable account confirmation and password reset please
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
+                var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 var callbackUrl = Url.Page(
                     "/Account/ResetPassword",
                     pageHandler: null,
-                    values: new { area = "Identity", userId = user.Id, code },
+                    values: new { area = "Identity", userId = userId, code = code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                var emailBody =
+                $@"
+                <html>
+                <head>
+                    <style>
+                        body {{ font-family: Arial, sans-serif; }}
+                        .container {{ max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; }}
+                        .header {{ background-color: #007bff; color: white; text-align: center; padding: 10px; border-radius: 10px 10px 0 0; }}
+                        .content {{ padding: 20px; font-size: 16px; color: #333; }}
+                        .footer {{ text-align: center; font-size: 14px; color: #666; margin-top: 20px; }}
+                    </style>
+                </head>
+                <body>
+                    <div class='container'>
+                        <div class='header'>
+                            <h2>eMovies - Reset Your Password</h2>
+                        </div>
+                        <div class='content'>
+                            <p>Hello,</p>
+                            <p>We received a request to reset your password. To proceed, please click the link below:</p>
+                            <p><a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Reset Password</a></p>
+                            <p>If you didn't request this, please ignore this email.</p>
+                            <p>If you have any questions or need assistance, feel free to reach out to our support team.</p>
+                        </div>
+                        <div class='footer'>
+                            <p>&copy; 2025 eMovies. All rights reserved.</p>
+                        </div>
+                    </div>
+                </body>
+                </html>";
+
+                await _emailSender.SendEmailAsync(Input.Email, "Reset Password", emailBody);
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

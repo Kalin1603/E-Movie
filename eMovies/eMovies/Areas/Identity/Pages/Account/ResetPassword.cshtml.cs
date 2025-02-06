@@ -31,6 +31,9 @@ namespace eMovies.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
+        [TempData]
+        public string StatusMessage { get; set; }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -99,13 +102,22 @@ namespace eMovies.Areas.Identity.Pages.Account
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToPage("./ResetPasswordConfirmation");
+                ModelState.AddModelError(string.Empty, "The user with this email does not exist.");
+                return Page();
+            }
+
+            var currentPasswordValid = await _userManager.CheckPasswordAsync(user, Input.Password);
+            if (currentPasswordValid)
+            {
+                ModelState.AddModelError(string.Empty, "The new password cannot be the same as the old one. Please choose a new password.");
+                return Page();
             }
 
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
             if (result.Succeeded)
             {
-                return RedirectToPage("./ResetPasswordConfirmation");
+                StatusMessage = "Thank you for resseting your password. You can now log in.";
+                return RedirectToPage("/Account/Login");
             }
 
             foreach (var error in result.Errors)
