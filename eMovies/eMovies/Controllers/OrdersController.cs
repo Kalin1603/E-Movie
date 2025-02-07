@@ -53,8 +53,15 @@ namespace eMovies.Controllers
             return View(shoppingCartViewModel);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> AddItemToShoppingCard(int id)
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                TempData["StatusMessage"] = "You need to be logged in to add items to the shopping card.";
+                return LocalRedirect($"/Identity/Account/Login?ReturnUrl=/Orders/AddItemToShoppingCard/{id}");
+            }
+
             var selectedMovie = await _moviesService.GetMovieByIdAsync(id);
             if (selectedMovie != null)
             {

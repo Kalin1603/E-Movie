@@ -90,7 +90,7 @@ namespace eMovies.Areas.Identity.Pages.Account
                     if (result.Succeeded)
                     {
                         StatusMessage = "You logged in successfully. Enjoy your time!";
-                        return RedirectToAction("Index", "Home");
+                        return Redirect(returnUrl);
                     }
                     if (result.RequiresTwoFactor)
                     {
@@ -115,7 +115,7 @@ namespace eMovies.Areas.Identity.Pages.Account
                         if (result.Succeeded)
                         {
                             StatusMessage = "You logged in successfully. Enjoy your time!";
-                            return RedirectToAction("Index", "Home");
+                            return Redirect(returnUrl);
                         }
                     }
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
