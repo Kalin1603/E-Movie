@@ -4,6 +4,7 @@
     {
         Action = 1,
         Animation,
+        Adventure,
         Comedy,
         Crime,
         Drama,
@@ -11,6 +12,7 @@
         Fantasy,
         Historical,
         Horror,
+        Mystery,
         Romance,
         ScienceFiction,
         Thriller,

@@ -31,10 +31,22 @@ namespace eMovies.Controllers
 
         [AllowAnonymous]
         // GET: Movies
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 9)
         {
-            var allMovies = _moviesService.GetAllMoviesAsync();
-            return View(await allMovies);
+            var allMovies = await _moviesService.GetAllMoviesAsync();
+
+            var paginatedMovies = allMovies
+                .Skip((page - 1) * pageSize)  
+                .Take(pageSize)              
+                .ToList();
+
+            var totalMovies = allMovies.Count();
+            var totalPages = (int)Math.Ceiling(totalMovies / (double)pageSize);
+
+            ViewData["CurrentPage"] = page;
+            ViewData["TotalPages"] = totalPages;
+
+            return View(paginatedMovies);
         }
 
         [AllowAnonymous]

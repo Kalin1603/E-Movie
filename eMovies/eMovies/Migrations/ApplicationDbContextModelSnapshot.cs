@@ -184,7 +184,7 @@ namespace eMovies.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Actors");
+                    b.ToTable("Actors", (string)null);
                 });
 
             modelBuilder.Entity("eMovies.Models.ActorMovie", b =>
@@ -207,7 +207,7 @@ namespace eMovies.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("ActorMovies");
+                    b.ToTable("ActorMovies", (string)null);
                 });
 
             modelBuilder.Entity("eMovies.Models.AppUser", b =>
@@ -354,7 +354,7 @@ namespace eMovies.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cinemas");
+                    b.ToTable("Cinemas", (string)null);
                 });
 
             modelBuilder.Entity("eMovies.Models.Movie", b =>
@@ -403,7 +403,7 @@ namespace eMovies.Migrations
 
                     b.HasIndex("ProducerId");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Movies", (string)null);
                 });
 
             modelBuilder.Entity("eMovies.Models.Order", b =>
@@ -429,7 +429,7 @@ namespace eMovies.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("eMovies.Models.OrderItem", b =>
@@ -458,7 +458,7 @@ namespace eMovies.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("eMovies.Models.Producer", b =>
@@ -490,7 +490,7 @@ namespace eMovies.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Producers");
+                    b.ToTable("Producers", (string)null);
                 });
 
             modelBuilder.Entity("eMovies.Models.ShoppingCardItem", b =>
@@ -515,7 +515,7 @@ namespace eMovies.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("ShoppingCardItems");
+                    b.ToTable("ShoppingCardItems", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
