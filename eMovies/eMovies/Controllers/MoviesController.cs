@@ -31,13 +31,37 @@ namespace eMovies.Controllers
 
         [AllowAnonymous]
         // GET: Movies
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 9)
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 9, string category = null, string filter = null)
         {
             var allMovies = await _moviesService.GetAllMoviesAsync();
 
+            if (!string.IsNullOrEmpty(category))
+            {
+                allMovies = allMovies.Where(m => m.Category.ToString().Equals(category, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(filter))
+            {
+                switch (filter)
+                {
+                    case "LowToHigh":
+                        allMovies = allMovies.OrderBy(m => m.Price).ToList();
+                        break;
+                    case "HighToLow":
+                        allMovies = allMovies.OrderByDescending(m => m.Price).ToList();
+                        break;
+                    case "asc":
+                        allMovies = allMovies.OrderBy(m => m.Title).ToList();
+                        break;
+                    case "desc":
+                        allMovies = allMovies.OrderByDescending(m => m.Title).ToList();
+                        break;
+                }
+            }
+
             var paginatedMovies = allMovies
-                .Skip((page - 1) * pageSize)  
-                .Take(pageSize)              
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .ToList();
 
             var totalMovies = allMovies.Count();
@@ -45,9 +69,14 @@ namespace eMovies.Controllers
 
             ViewData["CurrentPage"] = page;
             ViewData["TotalPages"] = totalPages;
+            ViewData["SelectedCategory"] = category;
+            ViewData["SelectedPriceFilter"] = filter; 
+            ViewData["SelectedSortOrder"] = filter;
 
             return View(paginatedMovies);
         }
+
+
 
         [AllowAnonymous]
         //Search Movies

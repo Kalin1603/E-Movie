@@ -4,6 +4,45 @@
     ViewData["Title"] = "List of Movies";
 }
 
+<!-- Бутон за отваряне на менюто -->
+<button class="filter-toggle-btn" id="filterToggleBtn">
+    <i class="bi bi-funnel"></i> <!-- Икона за филтър -->
+</button>
+
+<!-- Филтърно меню -->
+<div class="filter-menu" id="filterMenu">
+    <form asp-action="Index" method="get" class="filter-sort-container">
+        <div>
+            <!-- Филтър по категория -->
+            <select name="category" id="category">
+                <option value="">All Categories</option>
+                @foreach (var category in Enum.GetValues(typeof(eMovies.Enums.MovieCategory)))
+                {
+                    <option value="@category" selected="@(ViewData["SelectedCategory"]?.ToString() == category.ToString())">@category</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <!-- Филтър по цена и сортиране комбинирани -->
+            <select name="filter" id="filter">
+                <option value="">Select Filter</option>
+                <option value="LowToHigh" selected="@(ViewData["SelectedPriceFilter"]?.ToString() == "LowToHigh")">Price: Low to High</option>
+                <option value="HighToLow" selected="@(ViewData["SelectedPriceFilter"]?.ToString() == "HighToLow")">Price: High to Low</option>
+                <option value="asc" selected="@(ViewData["SelectedSortOrder"]?.ToString() == "asc")">Title: A-Z</option>
+                <option value="desc" selected="@(ViewData["SelectedSortOrder"]?.ToString() == "desc")">Title: Z-A</option>
+            </select>
+        </div>
+
+        <div>
+            <button type="submit" class="filter-sort-button">Filter</button>
+            <button type="button" class="reset-button" onclick="window.location.href='@Url.Action("Index")'">Reset</button>
+
+        </div>
+    </form>
+</div>
+
+
 <div class="row">
     @foreach (var item in Model)
     {
@@ -92,43 +131,36 @@
             @if (currentPage > 1)
             {
                 <li class="page-item">
-                    <a class="page-link" href="@Url.Action("Index", new { page = currentPage - 1 })" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
+                    <a class="page-link" href="@Url.Action("Index", new { category = ViewData["SelectedCategory"], search = ViewData["SearchQuery"], page = currentPage - 1 })">&laquo;</a>
                 </li>
             }
 
             @for (int i = 1; i <= totalPages; i++)
             {
                 <li class="page-item @(currentPage == i ? "active" : "")">
-                    <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                    <a class="page-link" href="@Url.Action("Index", new { category = ViewData["SelectedCategory"], search = ViewData["SearchQuery"], page = i })">@i</a>
                 </li>
             }
 
             @if (currentPage < totalPages)
             {
                 <li class="page-item">
-                    <a class="page-link" href="@Url.Action("Index", new { page = currentPage + 1 })" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
+                    <a class="page-link" href="@Url.Action("Index", new { category = ViewData["SelectedCategory"], search = ViewData["SearchQuery"], page = currentPage + 1 })">&raquo;</a>
                 </li>
             }
         }
     </ul>
 </div>
+
+@section Scripts {
+    <script>
+                // Menu effect
+        const filterToggleBtn = document.getElementById('filterToggleBtn');
+        const filterMenu = document.getElementById('filterMenu');
+
+        filterToggleBtn.addEventListener('click', function() {
+            filterMenu.classList.toggle('active');
+        });
+
+    </script>
+}

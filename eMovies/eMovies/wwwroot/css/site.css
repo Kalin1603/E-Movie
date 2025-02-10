@@ -206,8 +206,110 @@ body {
         border-radius: 50%;
     }
 
-        .pagination .page-item:first-child .page-link:hover,
-        .pagination .page-item:last-child .page-link:hover {
-            background-color: #2AF598;
-            color: #2f3640;
+/* Style for the button on the right side of the page */
+.filter-toggle-btn {
+    position: fixed;
+    top: 15%;
+    right: 20px;
+    background-color: #2AF598;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+    .filter-toggle-btn:hover {
+        background-color: #1e8e63;
+    }
+
+/* Style for the meny */
+.filter-menu {
+    position: fixed;
+    top: 300px;
+    right: -250px; /* The menu is hidden */
+    width: 250px;
+    height: 280px;
+    background-color: #2f3640;
+    padding: 15px;
+    border-radius: 0 10px 10px 0;
+    transition: right 0.3s ease;
+    z-index: 9998;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+    .filter-menu.active {
+        right: 0;
+    }
+
+    /* Style for the elements in menu */
+    .filter-menu select,
+    .filter-menu button,
+    .reset-button { 
+        width: 100%;
+        margin: 10px 0;
+        background-color: #2f3640;
+        color: #2AF598;
+        border: 1px solid #2AF598;
+        border-radius: 5px;
+        padding: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+        .filter-menu select:focus,
+        .filter-menu button:focus,
+        .reset-button:focus { 
+            outline: none;
+            background-color: #2f3640;
+            color: #2AF598;
         }
+
+/* Style for button Reset */
+.reset-button {
+    background-color: #2f3640;
+    color: #2AF598; 
+    font-size: 16px; 
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .reset-button:hover {
+        background-color: #1e8e63;
+        color: white;
+    }
+
+    .reset-button:active {
+        background-color: #1a804a;
+    }
+
+/* Style for button Filter */
+.filter-sort-button {
+    background-color: #2f3640;
+    color: #2AF598;
+    border: 1px solid #2AF598;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .filter-sort-button:hover {
+        background-color: #1e8e63;
+        color: white;
+    }
+
+    .filter-sort-button:active {
+        background-color: #1a804a;
+    }
