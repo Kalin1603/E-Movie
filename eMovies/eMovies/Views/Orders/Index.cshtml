@@ -5,74 +5,85 @@
     ViewData["Title"] = "All orders";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-10 col-lg-8">
-        <div class="card p-4 shadow-sm bg-dark text-white">
-            <h2 class="text-center">List of all your orders</h2>
-            <hr />
-            <table class="table table-bordered table-dark table-hover">
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>Items</th>
-                        <th>Total</th>
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                        {
-                            <th>User</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var order in Model)
-                    {
-                        <tr>
-                            <td class="align-middle">@order.Id</td>
-                            <td class="align-middle">
-                                <ul style="list-style-type:none; padding-left: 0;">
-                                    @foreach (var item in order.OrderItems)
-                                    {
-                                        <li>
-                                            <div class="alert alert-info" role="alert">
-                                                <span class="badge bg-success">@item.Quantity</span> [@item.Price.ToString("c")] - @item.Movie.Title
-                                            </div>
-                                        </li>
-                                    }
-                                </ul>
-                            </td>
-                            <td class="align-middle">
-                                @order.OrderItems.Select(m => m.Price * m.Quantity).Sum().ToString("c")
-                            </td>
-                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                            {
-                                <td class="align-middle"> @order.User.FullName </td>
-                                <td class="align-middle">
-                                    <span>@order.Status</span>
-                                </td>
-                                <td class="align-middle">
-                                    @if (order.Status == OrderStatus.Pending)
-                                    {
-                                        <form method="post" asp-action="ChangeOrderStatus" asp-route-orderId="@order.Id">
-                                            <label for="newStatus">Change Status:</label>
-                                            <select id="newStatus" name="newStatus" class="form-select">
-                                                <option value="Approved">Approved</option>
-                                                <option value="Rejected">Rejected</option>
-                                            </select>
-
-                                            <button type="submit" class="btn btn-primary mt-2">Change Status</button>
-                                        </form>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-muted">Cannot change status</span>
-                                    }
-                                </td>
-                            }
-                        </tr>
-                    }
-                </tbody>
-            </table>
+@if (Model == null || !Model.Any())
+{
+    <div class="container py-5">
+        <div class="alert alert-info" role="alert">
+            You have no orders yet.
         </div>
     </div>
-</div>
+}
+else
+{
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card p-4 shadow-sm bg-dark text-white">
+                <h2 class="text-center">List of all your orders</h2>
+                <hr />
+                <table class="table table-bordered table-dark table-hover">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <th>User</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model)
+                        {
+                            <tr>
+                                <td class="align-middle">@order.Id</td>
+                                <td class="align-middle">
+                                    <ul style="list-style-type:none; padding-left: 0;">
+                                        @foreach (var item in order.OrderItems)
+                                        {
+                                            <li>
+                                                <div class="alert alert-info" role="alert">
+                                                    <span class="badge bg-success">@item.Quantity</span> [@item.Price.ToString("c")] - @item.Movie.Title
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                </td>
+                                <td class="align-middle">
+                                    @order.OrderItems.Select(m => m.Price * m.Quantity).Sum().ToString("c")
+                                </td>
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                                {
+                                    <td class="align-middle"> @order.User.FullName </td>
+                                    <td class="align-middle">
+                                        <span>@order.Status</span>
+                                    </td>
+                                    <td class="align-middle">
+                                        @if (order.Status == OrderStatus.Pending)
+                                        {
+                                            <form method="post" asp-action="ChangeOrderStatus" asp-route-orderId="@order.Id">
+                                                <label for="newStatus">Change Status:</label>
+                                                <select id="newStatus" name="newStatus" class="form-select">
+                                                    <option value="Approved">Approved</option>
+                                                    <option value="Rejected">Rejected</option>
+                                                </select>
+
+                                                <button type="submit" class="btn btn-primary mt-2">Change Status</button>
+                                            </form>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">Cannot change status</span>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
