@@ -1,5 +1,5 @@
 
-# eMovie-Application 🎬
+# E-Movie 🎬
 
 ## Overview
 The **eMovie-Application** is a dynamic and user-friendly **e-commerce platform** designed for browsing, searching, and purchasing **movies**. It allows movie enthusiasts to explore various titles, learn about their details, and make purchases. The application handles **movies**, **actors**, **producers**, and **cinemas**, providing an intuitive interface for users.
