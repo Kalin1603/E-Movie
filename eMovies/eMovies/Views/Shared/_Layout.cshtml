@@ -77,11 +77,10 @@
         </main>
     </div>
 
-    <footer class="footer">
-        <div class="container">
-            &copy; @DateTime.Now.Year - eMovies - Created by Kalin Todorov. All rights reserved. Unauthorized use is prohibited.
-        </div>
-    </footer>
+    @if (IsSectionDefined("Footer"))
+    {
+        @RenderSection("Footer", required: false)
+    }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

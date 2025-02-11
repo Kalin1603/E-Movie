@@ -110,7 +110,7 @@
 
 @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
 {
-    <div class="position-fixed" style="right: 25px; bottom: 25px;">
+    <div class="position-fixed" style="right: 25px; bottom: 100px;">
         <a asp-controller="Movies" asp-action="Create" class="btn btn-success btn-lg d-flex align-items-center gap-2 btn-custom">
             <i class="bi bi-plus-circle"></i> Add New
         </a>
@@ -147,6 +147,25 @@
         }
     </ul>
 </div>
+
+<!-- Footer section -->
+@section Footer {
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-left">
+                &copy; @DateTime.Now.Year - eMovies - Created by Kalin Todorov. All rights reserved. Unauthorized use is prohibited.
+            </div>
+            <div class="footer-right">
+                <a href="https://github.com/Kalin1603" target="_blank" rel="noopener noreferrer" title="GitHub">
+                    <i class="bi bi-github"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/k-todorov/" target="_blank" rel="noopener noreferrer" title="LinkedIn">
+                    <i class="bi bi-linkedin"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+}
 
 @section Scripts {
     <script>

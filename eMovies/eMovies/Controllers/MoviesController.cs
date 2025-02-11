@@ -76,8 +76,6 @@ namespace eMovies.Controllers
             return View(paginatedMovies);
         }
 
-
-
         [AllowAnonymous]
         //Search Movies
         public async Task<IActionResult> Search(string searchString)

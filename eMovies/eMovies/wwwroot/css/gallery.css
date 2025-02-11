@@ -6,18 +6,19 @@
     padding: 20px 0;
 }
 
+/* Container for the movies grid (slider effect) */
 .movies-grid {
     display: flex;
     transition: transform 1s ease;
 }
 
+/* Styles for each movie card in the gallery */
 .movie-card {
     background-color: #2f3640;
     border-radius: 15px;
     overflow: hidden;
-    max-width: 100%;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    min-width: 25%; /* Adjusted width */
+    min-width: 25%;
     box-sizing: border-box;
     margin: 0 10px;
 }
@@ -27,27 +28,50 @@
         box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
     }
 
+/* Styles for the movie image */
 .movie-image {
-    width: 100%; /* Adjusted to fit the card */
-    height: 250px; /* Adjusted height */
+    width: 100%;
+    height: 350px;
     object-fit: cover;
 }
 
+/* Container for movie info */
 .movie-info {
     padding: 15px;
     text-align: left;
 }
 
+/* Styles for movie title */
 .movie-title {
     font-size: 18px;
     color: #fff;
     margin-bottom: 10px;
 }
 
+/* Styles for movie category, dates, and price */
 .movie-category,
 .movie-dates,
 .movie-price {
     font-size: 16px;
     color: #ccc;
     margin-bottom: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .movie-card {
+        min-width: 33.33%;
+    }
+}
+
+@media (max-width: 768px) {
+    .movie-card {
+        min-width: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .movie-card {
+        min-width: 100%;
+    }
 }
