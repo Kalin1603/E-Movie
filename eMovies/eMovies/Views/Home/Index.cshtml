@@ -5,38 +5,60 @@
 
 <partial name="~/Areas/Identity/Pages/Account/Manage/_StatusMessage.cshtml" model="Model.StatusMessage" />
 
-<div class="home-container">
-    <div class="header">
-        <h1 class="display-4">Upcoming Movies</h1>
-        <p>Discover the latest movies that are coming soon to our cinemas.</p>
-    </div>
+<link href="~/css/gallery.css" rel="stylesheet" />
 
-    <div class="movies-grid">
-        @if (Model.TopUpcommingMovies?.UpcommingMovies?.Any() ?? false)
-        {
-            foreach (var movie in Model.TopUpcommingMovies.UpcommingMovies)
-            {
-                <div class="movie-card">
-                    <img src="@movie.MovieImageURL" alt="@movie.Title" class="movie-image" />
-                    <div class="movie-info">
-                        <h2 class="movie-title">@movie.Title</h2>
-                        <p class="movie-category">Category: @movie.Category</p>
-                        <p class="movie-dates">From @movie.StartDate.ToString("dd MMMM, yyyy").TrimEnd() to @movie.EndDate.ToString("dd MMMM, yyyy").TrimEnd()</p>
-                        <p class="movie-price">Price: $@movie.Price</p>
-                    </div>
-                </div>
-            }
-        }
-        else
-        {
-            <p>No upcoming movies available at the moment. Please check back later!</p>
-        }
+<div class="main-content">
+    <div class="home-container">
+        <div class="header">
+            <h1 class="display-4">Upcoming Movies</h1>
+            <p>Discover the latest movies that are coming soon to our cinemas.</p>
+        </div>
+
+        <div class="gallery-container">
+            <div class="movies-grid" id="moviesGrid">
+                @if (Model.TopUpcommingMovies?.UpcommingMovies?.Any() ?? false)
+                {
+                    foreach (var movie in Model.TopUpcommingMovies.UpcommingMovies)
+                    {
+                        <div class="movie-card">
+                            <img src="@movie.MovieImageURL" alt="@movie.Title" class="movie-image" />
+                            <div class="movie-info">
+                                <h2 class="movie-title">@movie.Title</h2>
+                                <p class="movie-category">Category: @movie.Category</p>
+                                <p class="movie-dates">From @movie.StartDate.ToString("dd MMMM, yyyy").TrimEnd() to @movie.EndDate.ToString("dd MMMM, yyyy").TrimEnd()</p>
+                                <p class="movie-price">Price: $@movie.Price</p>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>No upcoming movies available at the moment. Please check back later!</p>
+                }
+            </div>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
+        // Gallery slider
+        let currentIndex = 0;
+
+        function moveRight() {
+            const grid = document.getElementById('moviesGrid');
+            const totalItems = grid.children.length;
+            const itemsPerView = 4;
+            currentIndex++;
+            if (currentIndex >= totalItems - itemsPerView + 1) {
+                currentIndex = 0;
+            }
+            grid.style.transform = `translateX(-${currentIndex * (100 / itemsPerView)}%)`;
+        }
+
+        setInterval(moveRight, 2000); 
+
         setTimeout(function () {
             let alertElement = document.querySelector(".alert-dismissible");
             if (alertElement) {

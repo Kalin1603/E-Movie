@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/css/buton.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/searchbox.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/card.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/footer.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
@@ -75,6 +76,12 @@
             @RenderBody()
         </main>
     </div>
+
+    <footer class="footer">
+        <div class="container">
+            &copy; @DateTime.Now.Year - eMovies - Created by Kalin Todorov. All rights reserved. Unauthorized use is prohibited.
+        </div>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

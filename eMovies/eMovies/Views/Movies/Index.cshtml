@@ -4,16 +4,13 @@
     ViewData["Title"] = "List of Movies";
 }
 
-<!-- Бутон за отваряне на менюто -->
 <button class="filter-toggle-btn" id="filterToggleBtn">
-    <i class="bi bi-funnel"></i> <!-- Икона за филтър -->
+    <i class="bi bi-funnel"></i> 
 </button>
 
-<!-- Филтърно меню -->
 <div class="filter-menu" id="filterMenu">
     <form asp-action="Index" method="get" class="filter-sort-container">
         <div>
-            <!-- Филтър по категория -->
             <select name="category" id="category">
                 <option value="">All Categories</option>
                 @foreach (var category in Enum.GetValues(typeof(eMovies.Enums.MovieCategory)))
@@ -24,7 +21,6 @@
         </div>
 
         <div>
-            <!-- Филтър по цена и сортиране комбинирани -->
             <select name="filter" id="filter">
                 <option value="">Select Filter</option>
                 <option value="LowToHigh" selected="@(ViewData["SelectedPriceFilter"]?.ToString() == "LowToHigh")">Price: Low to High</option>

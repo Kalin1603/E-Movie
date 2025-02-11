@@ -16,23 +16,34 @@
             </button>
 
             <ul class="dropdown-menu" aria-labelledby="profile-btn">
-                <li>
-                    <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
-                        <i class="bi bi-gear"></i> Profile settings
-                    </a>
-                </li>
+                
+                @if (User.IsInRole("User"))
+                {
+                    <li>
+                        <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
+                            <i class="bi bi-gear"></i> Profile settings
+                        </a>
+                    </li>
 
-                <hr class="dropdown-divider">
+                    <hr class="dropdown-divider">
 
-                <li>
-                    <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
-                        <i class="bi bi-list"></i> Orders
-                    </a>
-                </li>
+                    <li>
+                        <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
+                            <i class="bi bi-list"></i> Orders
+                        </a>
+                    </li>
+                }
 
                 @if (User.IsInRole("Admin"))
                 {
+                    <li>
+                        <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
+                            <i class="bi bi-list"></i> All users orders
+                        </a>
+                    </li>
+
                     <hr class="dropdown-divider">
+
                     <li>
                         <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Index">
                             <i class="bi bi-people"></i> Registered Users

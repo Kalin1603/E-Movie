@@ -26,6 +26,7 @@ else
                             <th>Order ID</th>
                             <th>Items</th>
                             <th>Total</th>
+                            <th>Status</th>
                             @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                             {
                                 <th>User</th>
@@ -54,6 +55,9 @@ else
                                 <td class="align-middle">
                                     @order.OrderItems.Select(m => m.Price * m.Quantity).Sum().ToString("c")
                                 </td>
+                                <td class="align-middle">
+                                    <span>@order.Status</span>
+                                </td>
                                 @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                                 {
                                     <td class="align-middle"> @order.User.FullName </td>
@@ -75,7 +79,7 @@ else
                                         }
                                         else
                                         {
-                                            <span class="text-muted">Cannot change status</span>
+                                            <span class="badge bg-secondary">Cannot change status</span>
                                         }
                                     </td>
                                 }

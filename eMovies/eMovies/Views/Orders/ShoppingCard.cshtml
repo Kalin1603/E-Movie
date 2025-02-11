@@ -90,9 +90,9 @@
     <script>
         paypal.Button.render({
             // Configure environment
-            env: 'sandbox',  // Използвай sandbox за тестове
+            env: 'sandbox',  
             client: {
-                sandbox: 'AYNQBEgd_JIYttpQR26hKFOkKd5RxFjoyJBcJjUVyTiIE6otU7Hln3n_NqIFjsFPD1w6B88abMFqCjg7'  // Заменете с вашия sandbox Client ID
+                sandbox: 'AYNQBEgd_JIYttpQR26hKFOkKd5RxFjoyJBcJjUVyTiIE6otU7Hln3n_NqIFjsFPD1w6B88abMFqCjg7'  
             },
 
             // Customize button
@@ -109,7 +109,7 @@
                 return actions.payment.create({
                     transactions: [{
                         amount: {
-                            total: '@Model.ShoppingCardTotal',  // Замени с правилната сума от твоето приложение
+                            total: '@Model.ShoppingCardTotal',  
                             currency: 'USD'
                         }
                     }]
@@ -119,7 +119,7 @@
             // Execute the payment
             onAuthorize: function (data, actions) {
                 return actions.payment.execute().then(function () {
-                    var url = '@Url.Action("CompleteOrder", "Orders", new { })';  // Пренасочване след успешна транзакция
+                    var url = '@Url.Action("CompleteOrder", "Orders", new { })';  
                     window.location.href = url;
                 });
             }

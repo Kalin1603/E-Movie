@@ -31,7 +31,7 @@ namespace eMovies.Controllers
 
         [AllowAnonymous]
         // GET: Movies
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 9, string category = null, string filter = null)
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 3, string category = null, string filter = null)
         {
             var allMovies = await _moviesService.GetAllMoviesAsync();
 
