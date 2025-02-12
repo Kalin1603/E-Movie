@@ -38,6 +38,15 @@
     </form>
 </div>
 
+<!-- Status message - No genre found -->
+@if (ViewData["StatusMessage"] != null && !string.IsNullOrEmpty(ViewData["StatusMessage"].ToString()))
+{
+    <div class="d-flex justify-content-center mt-3">
+        <div class="alert alert-info" role="alert">
+            @ViewData["StatusMessage"]
+        </div>
+    </div>
+}
 
 <div class="row">
     @foreach (var item in Model)

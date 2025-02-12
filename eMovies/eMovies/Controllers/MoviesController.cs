@@ -38,6 +38,10 @@ namespace eMovies.Controllers
             if (!string.IsNullOrEmpty(category))
             {
                 allMovies = allMovies.Where(m => m.Category.ToString().Equals(category, StringComparison.OrdinalIgnoreCase)).ToList();
+                if (!allMovies.Any())
+                {
+                    ViewData["StatusMessage"] = "No available movies with this category!";
+                }
             }
 
             if (!string.IsNullOrEmpty(filter))

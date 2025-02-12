@@ -25,8 +25,8 @@ h1, h2 {
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
     border: none;
     border-radius: 0.5rem;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
@@ -82,19 +82,47 @@ textarea {
 input[type="submit"] {
     background-color: #2AF598;
     border-color: #2AF598;
-    color: white;
+    color: #1a1a1a; /* Промяна на цвета на текста */
     padding: 10px 20px;
     border-radius: 0.5rem;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
+    border: 2px solid #2AF598; /* Добавяне на граница */
 }
 
     input[type="submit"]:hover {
         background-color: #1e8c5f;
+        color: #fff; /* Промяна на цвета на текста при hover */
     }
 
 a.btn-outline-secondary {
     margin-top: 1rem;
+    background-color: #2AF598; /* Промяна на цвета на фона */
+    color: #1a1a1a; /* Промяна на цвета на текста */
+    border: 2px solid #2AF598; /* Добавяне на граница */
+    padding: 10px 20px;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s, color 0.3s;
 }
+
+    a.btn-outline-secondary:hover {
+        background-color: #1e8c5f;
+        color: #fff; /* Промяна на цвета на текста при hover */
+    }
+
+a.btn-outline-success {
+    background-color: #2AF598; /* Промяна на цвета на фона */
+    color: #1a1a1a; /* Промяна на цвета на текста */
+    border: 2px solid #2AF598; /* Добавяне на граница */
+    padding: 10px 20px;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+    a.btn-outline-success:hover {
+        background-color: #1e8c5f;
+        color: #fff; /* Промяна на цвета на текста при hover */
+    }
+
 
 #MoviePicturePreview {
     max-width: 250px;
