@@ -15,7 +15,7 @@ body {
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.5); 
+        background: rgba(0, 0, 0, 0.5);
         z-index: -1;
     }
 
@@ -262,7 +262,7 @@ body {
     /* Style for the elements in menu */
     .filter-menu select,
     .filter-menu button,
-    .reset-button { 
+    .reset-button {
         width: 100%;
         margin: 10px 0;
         background-color: #2f3640;
@@ -275,7 +275,7 @@ body {
 
         .filter-menu select:focus,
         .filter-menu button:focus,
-        .reset-button:focus { 
+        .reset-button:focus {
             outline: none;
             background-color: #2f3640;
             color: #2AF598;
@@ -284,8 +284,8 @@ body {
 /* Style for button Reset */
 .reset-button {
     background-color: #2f3640;
-    color: #2AF598; 
-    font-size: 16px; 
+    color: #2AF598;
+    font-size: 16px;
     border-radius: 5px;
     padding: 10px;
     text-align: center;
@@ -326,3 +326,9 @@ body {
     .filter-sort-button:active {
         background-color: #1a804a;
     }
+
+.navbar-logo {
+    height: 50px; /* Задайте височината, която Ви е необходима */
+    width: auto; /* Запазва пропорциите на логото */
+    margin-right: 10px; /* Отстояние от текста до логото */
+}
