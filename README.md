@@ -39,8 +39,5 @@ Before **eMovie-Application**, movie enthusiasts struggled to find a centralized
   - **Cinemas Controller**: Displays listings of cinemas screening films.
 - **Views**: Razor views to facilitate dynamic user interaction with the platform.
 
-## Acknowledgments 
-Special thanks to the open-source community for providing valuable resources and tools that helped make this project a success.
-
 ## License 
 This project is licensed under the **MIT License**. See the LICENSE file for details.
