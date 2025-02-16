@@ -386,3 +386,24 @@ body {
     .shopping-cart-summary a:hover {
         color: #2AF598 !important;
     }
+
+/* Profile page styles */
+.profile-picture-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+#profilePicture {
+    width: 30px;
+    height: 30px;
+    object-fit: fill;
+}
+
+#profileSettings {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}

@@ -25,5 +25,7 @@ namespace eMovies.Models
         public DateTime DateOfBirth { get; set; }
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
+
+        public string ProfilePictureUrl { get; set; }
     }
 }

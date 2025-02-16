@@ -4,7 +4,7 @@
 
 @{
     var currentUser = await UserManager.GetUserAsync(User);
-    var fullname = currentUser?.FullName;
+    var userName = currentUser?.UserName;
 }
 
 <ul class="navbar-nav">
@@ -12,11 +12,15 @@
     {
         <li class="nav-item dropdown">
             <button class="btn btn-outline-success dropdown-toggle" type="button" id="profile-btn" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-badge"></i> Hello @fullname!
+                @if (!string.IsNullOrEmpty(currentUser?.ProfilePictureUrl))
+                {
+                    <img src="@currentUser.ProfilePictureUrl" alt="Profile Picture" class="rounded-circle" id="profilePicture">
+                }
+                @userName
             </button>
 
             <ul class="dropdown-menu" aria-labelledby="profile-btn">
-                
+
                 @if (User.IsInRole("User"))
                 {
                     <li>

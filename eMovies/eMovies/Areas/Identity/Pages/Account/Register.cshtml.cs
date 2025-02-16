@@ -32,6 +32,7 @@ namespace eMovies.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<AppUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IWebHostEnvironment _env;
 
         public RegisterModel(
             UserManager<AppUser> userManager,
@@ -39,7 +40,8 @@ namespace eMovies.Areas.Identity.Pages.Account
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
             RoleManager<IdentityRole> roleManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IWebHostEnvironment env)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -48,6 +50,7 @@ namespace eMovies.Areas.Identity.Pages.Account
             _logger = logger;
             _roleManager = roleManager;
             _emailSender = emailSender;
+            _env = env;
         }
 
         [BindProperty]
@@ -62,6 +65,10 @@ namespace eMovies.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            [Display(Name = "Profile picture")]
+            public IFormFile ProfilePicture { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -138,6 +145,23 @@ namespace eMovies.Areas.Identity.Pages.Account
                 user.State = Input.State;
                 user.Address = Input.Address;
                 user.Zip = Input.Zip;
+
+                // Process profile picture upload
+                if (Input.ProfilePicture != null && Input.ProfilePicture.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(_env.WebRootPath, "uploads/profile");
+                    if (!Directory.Exists(uploadsFolder))
+                    {
+                        Directory.CreateDirectory(uploadsFolder);
+                    }
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(Input.ProfilePicture.FileName);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await Input.ProfilePicture.CopyToAsync(fileStream);
+                    }
+                    user.ProfilePictureUrl = "/uploads/profile/" + uniqueFileName;
+                }
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 

@@ -15,6 +15,10 @@
             <hr class="border-light" />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
+            <div class="text-center mb-4">
+                <img src="@Model.Input.ProfilePictureUrl" alt="Profile Picture" class="rounded-circle" id="profileSettings">
+            </div>
+
             <div class="form-floating mb-3">
                 <input asp-for="Input.UserName" class="form-control" placeholder="Username" readonly />
                 <label asp-for="Input.UserName" class="form-label text-black">Username</label>

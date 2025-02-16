@@ -40,6 +40,9 @@ namespace eMovies.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Display(Name = "Profile Picture")]
+            public string ProfilePictureUrl { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -122,7 +125,8 @@ namespace eMovies.Areas.Identity.Pages.Account.Manage
                 State = user.State,
                 Address = user.Address,
                 Zip = user.Zip,
-                DateOfBirth = user.DateOfBirth
+                DateOfBirth = user.DateOfBirth,
+                ProfilePictureUrl = user.ProfilePictureUrl
             };
         }
 
