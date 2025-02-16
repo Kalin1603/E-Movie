@@ -18,14 +18,20 @@ namespace eMovies.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly IWebHostEnvironment _env;
 
         public IndexModel(
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager)
+            SignInManager<AppUser> signInManager,
+            IWebHostEnvironment env)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _env = env;
         }
+
+        [BindProperty]
+        public IFormFile ProfilePicture { get; set; }
 
         public string Username { get; set; }
 
@@ -154,6 +160,25 @@ namespace eMovies.Areas.Identity.Pages.Account.Manage
             {
                 await LoadAsync(user);
                 return Page();
+            }
+
+            if (ProfilePicture != null && ProfilePicture.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(_env.WebRootPath, "images", "profiles");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(ProfilePicture.FileName);
+                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await ProfilePicture.CopyToAsync(fileStream);
+                }
+
+                user.ProfilePictureUrl = "/images/profiles/" + uniqueFileName;
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);

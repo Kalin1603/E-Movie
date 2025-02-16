@@ -7,7 +7,7 @@
 
 <partial name="~/Areas/Identity/Pages/Account/Manage/_StatusMessage.cshtml" model="Model.StatusMessage" />
 
-<div class="row justify-content-center" style="padding-top: 50px">
+<div class="row justify-content-center" style="padding-top: 20px">
     <h1 class="text-center">@ViewData["Title"]</h1>
     <div class="col-md-8 col-lg-6">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data" class="card p-4 shadow-sm bg-dark text-white">
@@ -139,19 +139,6 @@
                 let bsAlert = new bootstrap.Alert(alertElement);
                 bsAlert.close();
             }
-        }, 5000);
-
-        document.getElementById('Input_ProfilePicture').addEventListener('change', function (e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    const preview = document.getElementById('profilePicturePreview');
-                    preview.src = event.target.result;
-                    preview.style.display = 'block';
-                }
-                reader.readAsDataURL(file);
-            }
-        });
+        }, 5000); 
     </script>
 }

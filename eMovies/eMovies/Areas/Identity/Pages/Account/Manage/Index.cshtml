@@ -10,13 +10,16 @@
 
 <div class="row justify-content-center">
     <div class="col-md-8 col-lg-6">
-        <form id="profile-form" method="post" class="card p-4 shadow-lg rounded bg-dark text-white">
+        <form id="profile-form" method="post" enctype="multipart/form-data" class="card p-4 shadow-lg rounded bg-dark text-white">
             <h2 class="text-center mb-3">Manage Profile</h2>
             <hr class="border-light" />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
             <div class="text-center mb-4">
                 <img src="@Model.Input.ProfilePictureUrl" alt="Profile Picture" class="rounded-circle" id="profileSettings">
+                <br />
+                <label for="ProfilePictureInput" class="btn btn-secondary mt-2">Change picture</label>
+                <input type="file" id="ProfilePictureInput" name="ProfilePicture" style="display: none;" accept="image/*" />
             </div>
 
             <div class="form-floating mb-3">
@@ -133,5 +136,16 @@
                 bsAlert.close();
             }
         }, 5000);
+
+        document.getElementById("ProfilePictureInput").addEventListener("change", function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("profileSettings").src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
     </script>
 }

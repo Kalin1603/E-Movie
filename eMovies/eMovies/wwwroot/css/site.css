@@ -123,7 +123,7 @@ body {
 
     .shopping-cart-summary li {
         list-style: none;
-        margin: 0 10px;
+        margin: 0 15px;
     }
 
     .shopping-cart-summary a {
@@ -231,7 +231,6 @@ body {
     border-radius: 50%;
     font-size: 24px;
     cursor: pointer;
-    z-index: 9999;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease;
 }
@@ -328,15 +327,16 @@ body {
     }
 
 .navbar-logo {
-    height: 50px; 
-    width: auto; 
-    margin-right: 10px; 
+    height: 50px;
+    width: auto;
+    margin-right: 10px;
 }
 
 .navbar {
-    background: rgba(0, 0, 0, 0.5) !important; 
-    backdrop-filter: blur(8px); 
-    transition: all 0.3s ease; 
+    background: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    z-index: 1040;
 }
 
 .navbar-brand,
@@ -365,17 +365,6 @@ body {
 
 .navbar-toggler {
     border-color: rgba(255,255,255,0.3);
-}
-
-.searchBox {
-    background: rgba(255,255,255,0.1);
-    border-radius: 25px;
-    padding: 5px;
-}
-
-.searchInput {
-    color: white !important;
-    background: transparent !important;
 }
 
 .shopping-cart-summary a {
@@ -407,3 +396,31 @@ body {
     height: 150px;
     object-fit: cover;
 }
+
+/*Continue button style*/
+.continue-shopping-btn {
+    background-color: #2f3640;
+    color: #2AF598;
+    border: 1px solid #2AF598;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+    .continue-shopping-btn:hover {
+        background-color: #2AF598;
+        color: #2f3640;
+        transform: translateY(-5px);
+    }
+
+    .continue-shopping-btn i {
+        font-size: 1.2rem;
+    }
+
+    .continue-shopping-btn:active {
+        background-color: #1e8e63;
+        color: white;
+    }
