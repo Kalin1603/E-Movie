@@ -15,7 +15,7 @@ E-Movie is a comprehensive web application built with ASP.NET Core 9.0 MVC, desi
 
 Here's a glimpse of the eMovies home page (or another key feature):
 
-![eMovies Screenshot](![Screenshot 2025-04-06 152442](https://github.com/user-attachments/assets/db476df4-7d79-4a94-b981-c305b6c31db0))
+![Screenshot 2025-04-06 152442](https://github.com/user-attachments/assets/db476df4-7d79-4a94-b981-c305b6c31db0)
 
 ---
 ## Core Features
