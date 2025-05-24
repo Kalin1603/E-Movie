@@ -202,6 +202,7 @@ namespace eMovies.Controllers
 
             var response = new MovieViewModel()
             {
+                Id = movie.Id,
                 MovieImageURL = movie.MovieImageURL,
                 Title = movie.Title,
                 StartDate = movie.StartDate,
